@@ -2,7 +2,6 @@
 #ifndef PRACTICA3_LISTA_H
 #define PRACTICA3_LISTA_H
 #include <stdexcept>
-#include <list>
 
 /**
  * @brief Definicion de la estructura Lista
@@ -29,7 +28,7 @@ public:
     class Iterador {
         Nodo<I> *nodo;
     public:
-        friend class std::list<I>;
+        friend class ListaEnlazada<I>;
         Iterador(Nodo<I> *_nodo=0): nodo (_nodo){}
         bool fin() {
             return nodo==0;

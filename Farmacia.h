@@ -19,8 +19,9 @@ private:
     std::string cif_="-",provincia_="-",localidad_="-",
     nombre_="-",direccion_="-",codPostal_="-";
     MediExpress* linkMedi;
-    void pedidoMedicam(const int &ID);
+
     PaMedicamento *buscaMedicam(const int &ID);
+    void pedidoMedicam(const int &ID);
 public:
     Farmacia(std::string cif="-",std::string provincia="-",std::string localidad="-",
     std::string nombre="-",std::string direccion="-",std::string codPostal="-", MediExpress *link=0);
@@ -39,7 +40,8 @@ public:
     void set_direccion(const std::string &direccion);
     std::string get_cod_postal() const;
     void set_cod_postal(const std::string &cod_postal);
-    std::vector<Laboratorio*> buscarLabCompuesto(const std::string &nombre_PAmed);
+    void dispensaMedicam(PaMedicamento *pa);
+
     Farmacia &operator=(const Farmacia& orig);
     bool operator==(const Farmacia &orig) const;
     bool operator<(const Farmacia &orig) const;

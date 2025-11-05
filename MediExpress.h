@@ -23,7 +23,7 @@
  */
 class MediExpress {
 private:
-    std::vector<PaMedicamento> medication;
+    std::map<int,PaMedicamento> medication;
     std::list<Laboratorio> labs;
     AVL<Farmacia> pharmacy;
 public:

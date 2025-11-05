@@ -1,0 +1,47 @@
+{
+	"bmi-installation" : null,
+	"compiler-frontend-variant" : "GNU",
+	"compiler-id" : "GNU",
+	"compiler-simulate-id" : "",
+	"config" : "Debug",
+	"cxx-modules" : {},
+	"database-info" : null,
+	"dir-cur-bld" : "C:/Users/pablo/Downloads/Segundo Curso/Estructuras/Practicas/Practica4/cmake-build-debug",
+	"dir-cur-src" : "C:/Users/pablo/Downloads/Segundo Curso/Estructuras/Practicas/Practica4",
+	"dir-top-bld" : "C:/Users/pablo/Downloads/Segundo Curso/Estructuras/Practicas/Practica4/cmake-build-debug",
+	"dir-top-src" : "C:/Users/pablo/Downloads/Segundo Curso/Estructuras/Practicas/Practica4",
+	"exports" : [],
+	"forward-modules-from-target-dirs" : [],
+	"include-dirs" : [],
+	"language" : "CXX",
+	"linked-target-dirs" : [],
+	"module-dir" : "C:/Users/pablo/Downloads/Segundo Curso/Estructuras/Practicas/Practica4/cmake-build-debug/CMakeFiles/Practica4.dir",
+	"sources" : 
+	{
+		"CMakeFiles/Practica4.dir/Farmacia.cpp.obj" : 
+		{
+			"language" : "CXX",
+			"source" : "C:/Users/pablo/Downloads/Segundo Curso/Estructuras/Practicas/Practica4/Farmacia.cpp"
+		},
+		"CMakeFiles/Practica4.dir/Laboratorio.cpp.obj" : 
+		{
+			"language" : "CXX",
+			"source" : "C:/Users/pablo/Downloads/Segundo Curso/Estructuras/Practicas/Practica4/Laboratorio.cpp"
+		},
+		"CMakeFiles/Practica4.dir/MediExpress.cpp.obj" : 
+		{
+			"language" : "CXX",
+			"source" : "C:/Users/pablo/Downloads/Segundo Curso/Estructuras/Practicas/Practica4/MediExpress.cpp"
+		},
+		"CMakeFiles/Practica4.dir/PaMedicamento.cpp.obj" : 
+		{
+			"language" : "CXX",
+			"source" : "C:/Users/pablo/Downloads/Segundo Curso/Estructuras/Practicas/Practica4/PaMedicamento.cpp"
+		},
+		"CMakeFiles/Practica4.dir/main.cpp.obj" : 
+		{
+			"language" : "CXX",
+			"source" : "C:/Users/pablo/Downloads/Segundo Curso/Estructuras/Practicas/Practica4/main.cpp"
+		}
+	}
+}

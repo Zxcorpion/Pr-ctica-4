@@ -5,6 +5,7 @@
 #include "PaMedicamento.h"
 #include "Laboratorio.h"
 #include <vector>
+#include <list>
 #include "AVL.h"
 #include "Farmacia.h"
 
@@ -150,7 +151,7 @@ std::vector<Farmacia> leeFicheroVector(const std::string &fichero) {
 
 /**
  * @brief Funcion para calcular el tiempo de busqueda en un arbol usando la recursividad
- * @param vectorFarmacias  objeto VDinamico<Farmacia> pasado por referencia
+ * @param vectorFarmacias  objeto std::vector<Farmacia> pasado por referencia
  * @param arbol objeto de AVL<Farmacia> pasado por referencia
  * @param cifs string vector pasado por referencia
  * @param tiempo tiempo pasado por referencia para guardar el tiempo de busqueda
@@ -167,7 +168,7 @@ void calcularbusqueda(std::vector<Farmacia> &vectorFarmacias,AVL<Farmacia> &arbo
 }
 /**
  * @brief Funcion para calcular el tiempo de busqueda en un arbol usando la busqueda iterativa
- * @param vectorFarmacias  objeto VDinamico<Farmacia> pasado por referencia
+ * @param vectorFarmacias  objeto std::vector<Farmacia> pasado por referencia
  * @param cifs string vector pasado por referencia
  * @param tiempo tiempo pasado por referencia para guardar el tiempo de busqueda
  */
@@ -281,7 +282,7 @@ int main() {
     }
 //Ejercicio por parejas
     std::vector<Laboratorio*> labsVirus;
-
+/*
     for (int i = 0; i<27; i++) {
         Farmacia *farmasVirus = medi.buscaFarmacia(cif[i]); //Aqui buscamos la farmacia en el vector de cifs
         if (farmasVirus != 0) {
@@ -292,6 +293,8 @@ int main() {
             }
         }
     }
+    */
+    std::cout<<"\n";
     std::cout<<"Laboratorios que suministran medicamentos con virus:"<<std::endl;
     for (int j=0; j<labsVirus.size(); j++) {
         std::cout<<"Nombre: "<<labsVirus[j]->getNomrbeLab()<<std::endl;

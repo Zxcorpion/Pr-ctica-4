@@ -1,5 +1,8 @@
 #include "MediExpress.h"
 
+#include <map>
+
+
 /**
  * @brief Constructor por defecto de la clase MediExpress
  * @post Se crea un objeto con los valores asignados por defecto
@@ -115,11 +118,11 @@ MediExpress::MediExpress(const std::string &medicamentos, const std::string &lab
 
                 Laboratorio lab(id_numero,nombreLab_,direccion_,codigPostal_,localidad_);
                 try {
-                    ListaEnlazada<Laboratorio>::Iterador it = labs.iterador();
-                    while (!it.fin() && it.dato().getId() < id_numero) {
-                        it.siguiente();
+                    std::list<Laboratorio>::iterator it = labs.begin();
+                    while (it != labs.end() && it->getId() < id_numero) {
+                        it++;
                     }
-                    labs.insertar_delante(it,lab);
+                    labs.insert(it,lab);
                 }catch (std::out_of_range &e) {
                     std::cerr<<e.what()<<std::endl;
                 }
@@ -141,14 +144,15 @@ MediExpress::MediExpress(const std::string &medicamentos, const std::string &lab
     }
 
     //Enlazamos cada laboratorio con 2 PAmedicamentos
-    std::list<Laboratorio>::iterator itLaboratorio;
+    std::list<Laboratorio>::iterator itLaboratorio = labs.begin();
     int tam = 0;
-
-    while (!itLaboratorio.fin() && tam +1 < medication.size()) {
-        this->suministrarMed(&medication[tam],&itLaboratorio.dato());
-        this->suministrarMed(&medication[tam+1],&itLaboratorio.dato());
-        tam+=2;
-        itLaboratorio.siguiente();
+//hay que cambiar esto por los corchetes, hacerlo con un iterador
+    std::map<int,PaMedicamento>::iterator it_Medication = medication.begin();
+    while (itLaboratorio != labs.end() && it_Medication != medication.end()) {
+        this->suministrarMed(&it_Medication.first,&(*itLaboratorio));
+        this->suministrarMed(&it_Medication.second,&(*itLaboratorio));
+        it_Medication++;
+        itLaboratorio++;
     }
     //int cont=0;
     /*for (int i=0; i<medication.tamlog_(); i++){
@@ -279,7 +283,9 @@ MediExpress::MediExpress(const std::string &medicamentos, const std::string &lab
 
 
     //Aniadimos todos los cifs a cada farmacia
-    int indiceBucle=0;
+    //hay que cambiar esto, no vale j vale iterador cuando llegue al final
+    std::map<int,PaMedicamento>::iterator it_asignar_LabsMedi = medication.begin();
+
     for (int i= 0; i<vectorCIFS.size();i++) {
         Farmacia farmaciaInsercion;
         farmaciaInsercion.set_cif(vectorCIFS[i]);
@@ -336,7 +342,7 @@ void MediExpress::set_medication(const std::vector<PaMedicamento> &medication) {
  * @param labs valor que queremos asignar a nuestro atributo labs
  * @post El atributo labs es modificado por un nuevo valor
  */
-void MediExpress::set_labs(const ListaEnlazada<Laboratorio> &labs) {
+void MediExpress::set_labs(const std::list<Laboratorio> &labs) {
     this->labs = labs;
 }
 
@@ -354,6 +360,7 @@ MediExpress::~MediExpress() {
  * @post PaMedicamento pasado por cabecera es asociado con un laboratorio
  */
 void MediExpress::suministrarMed(PaMedicamento *pa, Laboratorio *l) {
+    if (pa && l != 0 )
     pa->servidoPor(l);
 }
 
@@ -363,13 +370,12 @@ void MediExpress::suministrarMed(PaMedicamento *pa, Laboratorio *l) {
  * @return &aux.dato si se ha encontrado el laboratorio o 0 si no se ha encontrado
  */
 Laboratorio *MediExpress::buscarLab(const std::string &nombreLab) {
-    ListaEnlazada<Laboratorio>::Iterador<Laboratorio> aux=labs.iterador();
-    for(int i = 0; i < labs.get_tam(); i++){
-        if(aux.dato().getNomrbeLab().find(nombreLab) != std::string::npos){
-            return &aux.dato();
-        }else{
-            aux.siguiente();
+    std::list<Laboratorio>::iterator aux=labs.begin();
+    while (aux!=labs.end()) {
+        if(aux->getNomrbeLab().find(nombreLab) != std::string::npos) {
+            return &(*aux);
         }
+        aux++;
     }
     return 0;
 }
@@ -381,14 +387,16 @@ Laboratorio *MediExpress::buscarLab(const std::string &nombreLab) {
  */
 std::vector<Laboratorio*> MediExpress::buscarLabCiudad(const std::string &nombreCiudad) {
     std::vector<Laboratorio*> vector;
-    ListaEnlazada<Laboratorio>::Iterador<Laboratorio> aux=labs.iterador();
-    for(int i = 0; i < labs.get_tam(); i++) {
-        if(aux.dato().getLocalidad().find(nombreCiudad) != std::string::npos) {
-            vector.push_back(&aux.dato());
+    std::list<Laboratorio>::iterator aux=labs.begin();
+    while (aux!=labs.end()) {
+        if(aux->getLocalidad().find(nombreCiudad) != std::string::npos) {
+            vector.push_back(&(*aux));
         }
-        aux.siguiente();
+        aux++;
     }
     return vector;
+    }
+
 }
 
 /**
@@ -399,9 +407,10 @@ std::vector<Laboratorio*> MediExpress::buscarLabCiudad(const std::string &nombre
  */
 std::vector<PaMedicamento*> MediExpress::buscaCompuesto(const std::string &nombrePA) {
     std::vector<PaMedicamento*>auxiliar;
-    for(unsigned int i=0;i<medication.size();i++) {
-        if(medication[i].get_nombre().find(nombrePA) != std::string::npos) {
-            auxiliar.push_back(&medication[i]);
+
+    for(std::map<int,PaMedicamento>::iterator aux = medication.begin();aux != medication.end();aux++) {
+        if(aux->second.get_nombre().find(nombrePA) != std::string::npos) {
+            auxiliar.push_back(&(aux->second));
         }
     }
     return auxiliar;
@@ -414,9 +423,10 @@ std::vector<PaMedicamento*> MediExpress::buscaCompuesto(const std::string &nombr
  */
 std::vector<PaMedicamento*> MediExpress::getMedicamentoSinLab() {
     std::vector<PaMedicamento*> aux;
-    for (int i=0;i< medication.size();i++) {
-        if (!medication[i].getServe())
-        aux.push_back(&medication[i]);
+    std::map<int,PaMedicamento>::iterator it_busca_SinLab = medication.begin();
+    while (it_busca_SinLab != medication.end()) {
+        if (!it_busca_SinLab->second.servidoPor())
+        aux.push_back(&(it_busca_SinLab->second));
     }
     return aux;
 }
@@ -427,8 +437,8 @@ std::vector<PaMedicamento*> MediExpress::getMedicamentoSinLab() {
  * @post se borran todos los medicamentos que coinciden con el nombre pasado por referencia y desenlaza el laboratorio de sus medicamentos
  */
 void MediExpress::borrarLaboratorio(const std::string &nombreCiudad) {
-    ListaEnlazada<Laboratorio>::Iterador<Laboratorio> encontrado=labs.iterador();
-    ListaEnlazada<Laboratorio>::Iterador<Laboratorio> aux;
+    std::list<Laboratorio>::iterator encontrado=labs.begin();
+
     int cont=0;
     for(int i=0;i<medication.size();i++) {
         if(medication[i].getServe() !=nullptr && medication[i].getServe()->getLocalidad().find(nombreCiudad) != std::string::npos) {
@@ -440,14 +450,11 @@ void MediExpress::borrarLaboratorio(const std::string &nombreCiudad) {
     if(cont==medication.size()) {
         throw std::invalid_argument("Error al localizar la localidad");
     }
-    while(!encontrado.fin()) {
-        if(encontrado.dato().getLocalidad().find(nombreCiudad) != std::string::npos) {
-            aux=encontrado;
-            aux.siguiente();
-            labs.borrar(encontrado);
-            encontrado=aux;
+    while(encontrado != labs.end()) {
+        if(encontrado->getLocalidad().find(nombreCiudad) != std::string::npos) {
+            encontrado = labs.erase(encontrado);
         }else
-            encontrado.siguiente();
+            encontrado++;
     }
 }
 
@@ -458,9 +465,9 @@ void MediExpress::borrarLaboratorio(const std::string &nombreCiudad) {
  * @post El medicamento buscado es encontrado y devuelto, en caso de no encontrarse, se devuelve un puntero a null
  */
 PaMedicamento *MediExpress::buscaCompuesto(const int &ID_) {
-    for(unsigned int i=0;i<medication.size();i++) {
-        if(medication[i].get_id_num() == ID_) {
-            return &medication[i];
+    for(std::map<int,PaMedicamento>::iterator it_Batman = medication.begin();it_Batman != medication.end();it_Batman++) {
+        if(it_Batman->second.get_id_num() == ID_) {
+            return &(it_Batman->second);
         }
     }
     return 0;
@@ -474,7 +481,7 @@ PaMedicamento *MediExpress::buscaCompuesto(const int &ID_) {
 void MediExpress::suministrarFarmacia(Farmacia *farma, int ID_) {
     PaMedicamento *medicam = buscaCompuesto(ID_);
     if (medicam) {
-        farma->dispensaMedicam(medicam);
+        farma->nuevoStock(medicam,n);
     // }else {
     //     throw std::invalid_argument("Error al suministrar farmacia: Medicamrnto no encontrado");
     }
@@ -496,12 +503,12 @@ Farmacia *MediExpress::buscaFarmacia(const std::string &cif_) {
  * @param nombrePA PaMedicamento
  * @return lista de laboratorios encontrados
  */
-ListaEnlazada<Laboratorio*> MediExpress::buscarLabs(const std::string &nombrePA) {
-   ListaEnlazada<Laboratorio*> lista;
+std::list<Laboratorio*> MediExpress::buscarLabs(const std::string &nombrePA) {
+   std::list<Laboratorio*> lista;
    for (int i =0; i<medication.size();i++) {
        Laboratorio *auxilio = medication[i].getServe();
        if (medication[i].get_nombre() == nombrePA) {
-           lista.insertarFinal(auxilio);
+           lista.push_back(auxilio);
        }
    }
     return lista;

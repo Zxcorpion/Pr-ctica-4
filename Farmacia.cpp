@@ -187,9 +187,9 @@ void Farmacia::pedidoMedicam(const int &ID) {
  * @param ID del PAmedicamento a buscar
  * @return PAmedicamento a buscar segun su ID
  * @post El PAmedicamento a buscar es devuelto, en casod e no encontrarlo se devuelve nullptr
- */
+ *//*
 PaMedicamento *Farmacia::buscaMedicam(const int &ID) {
-    for (int i = 0; i < dispense.size(); i++) {
+    for (int i = 0; i < dispense.tamlog_(); i++) {
         if (ID == dispense[i]->get_id_num()) {
             return dispense[i];
         }
@@ -198,22 +198,4 @@ PaMedicamento *Farmacia::buscaMedicam(const int &ID) {
     //
     return 0;
 }
-
-
-/**
- * @brief Funcion para buscar medicamentos y meterl en una lista los laboratorios que usan esos PaMedicamentos
- * @param  nombre_PAmed
- * @return Devuelve una lista con todos los laboratorios que tienen un determinado PAmedicamento
- */
-std::vector<Laboratorio*> Farmacia::buscarLabCompuesto(const std::string &nombre_PAmed) {
-    std::vector<Laboratorio *> listaWayne;
-    for (int i = 0; i < this->dispense.tamlog_(); i++) {
-        PaMedicamento *med = dispense[i];
-        if (med && med->get_nombre().find(nombre_PAmed) != std::string::npos) {
-            Laboratorio *aux = med->getServe();
-            if (aux)
-                listaWayne.push_back(aux);
-        }
-    }
-    return listaWayne;
-}
+*/
