@@ -55,7 +55,7 @@ MediExpress::MediExpress(const std::string &medicamentos, const std::string &lab
 
                 PaMedicamento medicamento(id_num,id_alpha,nombre);
                 try {
-                    medication.push_back(medicamento);
+                    medication.insert(medicamento);
                 }catch (std::out_of_range &e) {
                     std::cerr<<e.what()<<std::endl;
                 }
@@ -149,8 +149,8 @@ MediExpress::MediExpress(const std::string &medicamentos, const std::string &lab
 //hay que cambiar esto por los corchetes, hacerlo con un iterador
     std::map<int,PaMedicamento>::iterator it_Medication = medication.begin();
     while (itLaboratorio != labs.end() && it_Medication != medication.end()) {
-        this->suministrarMed(&it_Medication.first,&(*itLaboratorio));
-        this->suministrarMed(&it_Medication.second,&(*itLaboratorio));
+        this->suministrarMed(&it_Medication->second,&(*itLaboratorio));
+        this->suministrarMed(&it_Medication->second,&(*itLaboratorio));
         it_Medication++;
         itLaboratorio++;
     }
@@ -332,7 +332,7 @@ MediExpress &MediExpress::operator=(const MediExpress &orig) {
  * @param medication valor que queremos asignar a medication
  * @post El atributo medication es modificado por un nuevo valor
  */
-void MediExpress::set_medication(const std::vector<PaMedicamento> &medication) {
+void MediExpress::set_medication(const std::map<int,PaMedicamento> &medication) {
     this->medication = medication;
 }
 
@@ -397,8 +397,6 @@ std::vector<Laboratorio*> MediExpress::buscarLabCiudad(const std::string &nombre
     return vector;
     }
 
-}
-
 /**
  * @brief Funcion para buscar compuestos en un vector dinamico de PaMedicamento
  * @param nombrePA  pasado por referencia
@@ -425,7 +423,7 @@ std::vector<PaMedicamento*> MediExpress::getMedicamentoSinLab() {
     std::vector<PaMedicamento*> aux;
     std::map<int,PaMedicamento>::iterator it_busca_SinLab = medication.begin();
     while (it_busca_SinLab != medication.end()) {
-        if (!it_busca_SinLab->second.servidoPor())
+        if (!it_busca_SinLab->second.servidoPor)
         aux.push_back(&(it_busca_SinLab->second));
     }
     return aux;
@@ -478,13 +476,19 @@ PaMedicamento *MediExpress::buscaCompuesto(const int &ID_) {
  * @param farma Farmacia sobre la que queremos añadir el PAmedicamento
  * @param ID_ ID del PAmedicamento que se quiere buscar
  */
-void MediExpress::suministrarFarmacia(Farmacia *farma, int ID_) {
-    PaMedicamento *medicam = buscaCompuesto(ID_);
+void MediExpress::suministrarFarmacia(Farmacia *farma, int id_num, int robin) {
+    //De entre todas las opciones para buscar en un map usamos find
+    std::map<int,PaMedicamento>::iterator it=medication.find(id_num);
+    //Comprobamos si lo hemos encontrado, de ser asi llamamos a nuevostock
+    if(it!=medication.end()) {
+        farma->nuevoStock(&it->second,robin);
+    }
+    /* PaMedicamento *medicam = buscaCompuesto(id_num);
     if (medicam) {
         farma->nuevoStock(medicam,n);
     // }else {
     //     throw std::invalid_argument("Error al suministrar farmacia: Medicamrnto no encontrado");
-    }
+    }*/
 }
 
 /**

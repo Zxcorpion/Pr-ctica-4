@@ -178,8 +178,8 @@ bool Farmacia::operator>(const Farmacia &orig) const {
  * @param ID Id del PAmedicamento a buscar
  * @post La farmacia es suministrada con un nuevo PAmedicamento
  */
-void Farmacia::pedidoMedicam(const int &ID) {
-    linkMedi->suministrarFarmacia(this, ID);
+void Farmacia::pedidoMedicam(int& id_num, int& robin) {
+    linkMedi->suministrarFarmacia(this,id_num,robin);
 }
 
 /**
@@ -187,15 +187,60 @@ void Farmacia::pedidoMedicam(const int &ID) {
  * @param ID del PAmedicamento a buscar
  * @return PAmedicamento a buscar segun su ID
  * @post El PAmedicamento a buscar es devuelto, en casod e no encontrarlo se devuelve nullptr
- *//*
-PaMedicamento *Farmacia::buscaMedicam(const int &ID) {
-    for (int i = 0; i < dispense.tamlog_(); i++) {
-        if (ID == dispense[i]->get_id_num()) {
-            return dispense[i];
-        }
+ */
+int Farmacia::buscaMedicam(int& id_num) {
+    //Creamos un stock para usarlo
+    Stock ss1(id_num);
+    //Creamos un iterador y usamos la funcion find para encontrar el medicamento con el id pasado por cabecera, creando uno con el id
+    std::set<Stock>::iterator it=order.find(ss1);
+    if (it!=order.end() && it->getNumStock()>0) {
+        return it->getNumStock();
+    }else {
+        //Si no existe o no lo queda stock devuelve 0
+        return 0;
     }
-    //     pedidoMedicam(ID);
-    //
     return 0;
 }
-*/
+PaMedicamento *Farmacia::comprarMedicam(int &id_num, int &robinunidades) {
+    if(buscaMedicam(id_num) > robinunidades) {
+        //Creamos un stock con el id del medicamento que queremos comprar
+        Stock aux1(id_num);
+        //buscamos en nuestro order el medicamente mediante la funcion find
+        std::set<Stock>::iterator it1 = order.find(aux1);
+        //Lo guardo en una auxiliar para porder modificarlo
+        Stock aux2 = *it1;
+        //Lo eliminamos ya que para modificar un objeto del order, antes hay que sacarlo
+        order.erase(it1);
+        //Cojemos las unidades necesarias
+        aux2.decrementa(robinunidades);
+        //Lo volvemos a insertar en nuestro order
+        order.insert(aux2);
+    }else {
+        //Si no hay suificiente stock llamamos a pedidoMedicam y le pasamos el numero de unidades que necesitamos
+        int aux3=buscaMedicam(id_num);
+        aux3=aux3-robinunidades;
+        pedidoMedicam(id_num,aux3);
+    }
+}
+void Farmacia::nuevoStock(PaMedicamento *batmelatonina, int &robin) {
+    Stock bat1(batmelatonina->get_id_num());
+    std::set<Stock>::iterator it1 = order.find(bat1);
+    if(it1 != order.end()) {
+        //analogo a comprarMedicam solo que ahora incrementamos
+        Stock aux2 = *it1;
+        order.erase(it1);
+        aux2.incrementa(robin);
+        order.insert(aux2);
+    }else {
+        //Cuando no existe lo creamos nosotros
+        Stock nuevorobin(batmelatonina->get_id_num(),robin);
+        //Para enlazarlo correctamente con PaMedicamente lo insertamos en el order
+        order.insert(nuevorobin);
+    }
+}
+bool Farmacia::eliminarStock(int &id_num) {
+
+}
+
+
+

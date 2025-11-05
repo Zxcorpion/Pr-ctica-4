@@ -5,7 +5,8 @@
 #ifndef PRACTICA3_FARMACIA_H
 #define PRACTICA3_FARMACIA_H
 #include <iostream>
-
+#include <set>
+#include "Stock.h"
 #include "Lista.h"
 #include "PaMedicamento.h"
 #include <vector>
@@ -19,9 +20,8 @@ private:
     std::string cif_="-",provincia_="-",localidad_="-",
     nombre_="-",direccion_="-",codPostal_="-";
     MediExpress* linkMedi;
-
-    PaMedicamento *buscaMedicam(const int &ID);
-    void pedidoMedicam(const int &ID);
+    std::set<Stock>order;
+    int buscaMedicam(int& id_num);
 public:
     Farmacia(std::string cif="-",std::string provincia="-",std::string localidad="-",
     std::string nombre="-",std::string direccion="-",std::string codPostal="-", MediExpress *link=0);
@@ -40,12 +40,15 @@ public:
     void set_direccion(const std::string &direccion);
     std::string get_cod_postal() const;
     void set_cod_postal(const std::string &cod_postal);
-    void dispensaMedicam(PaMedicamento *pa);
 
     Farmacia &operator=(const Farmacia& orig);
     bool operator==(const Farmacia &orig) const;
     bool operator<(const Farmacia &orig) const;
     bool operator>(const Farmacia &orig) const;
+    void pedidoMedicam(int& id_num, int& robin);
+    PaMedicamento* comprarMedicam(int& id_num, int& robin);
+    void nuevoStock(PaMedicamento* batmelatonina,int& robin);
+    bool eliminarStock(int& id_num);
 };
 
 

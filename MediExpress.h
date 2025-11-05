@@ -13,6 +13,7 @@
 #include "AVL.h"
 #include "PaMedicamento.h"
 #include "Laboratorio.h"
+#include <map>
 #include <vector>
 #include <list>
 #include "Farmacia.h"
@@ -35,7 +36,7 @@ public:
     MediExpress& operator=(const MediExpress &orig);
 
 
-    void set_medication(const std::vector<PaMedicamento> &medication);
+    void set_medication(const std::map<int,PaMedicamento> &medication);
     void set_labs(const std::list<Laboratorio> &labs);
 
     void suministrarMed(PaMedicamento *pa,Laboratorio *l);
@@ -46,7 +47,7 @@ public:
     std::vector<PaMedicamento*> getMedicamentoSinLab();
     void borrarLaboratorio(const std::string &nombreCiudad);
     PaMedicamento* buscaCompuesto(const int &ID_);
-    void suministrarFarmacia(Farmacia *farma, int ID_);
+    void suministrarFarmacia(Farmacia *farma, int id_num, int robin);
     Farmacia* buscaFarmacia(const std::string &nombreFar);
 
 };

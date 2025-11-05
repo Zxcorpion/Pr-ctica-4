@@ -272,7 +272,7 @@ int main() {
             farmaOxido->pedidoMedicam(id);
         }
     }
-    std::vector<PaMedicamento*> medicamentosOxido= medi.buscaCompuesto("MAGNESIO");
+    std::map<int,PaMedicamento*> medicamentosOxido= medi.buscaCompuesto("MAGNESIO");
     std::list<Laboratorio*> labsOxido;
     for (int i = 0; i<medicamentosOxido.size(); i++) {
         if (medicamentosOxido[i]->getServe()) {
