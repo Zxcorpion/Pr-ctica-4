@@ -141,7 +141,7 @@ MediExpress::MediExpress(const std::string &medicamentos, const std::string &lab
     //Enlazamos cada laboratorio con 2 PAmedicamentos
     std::list<Laboratorio>::iterator itLaboratorio = labs.begin();
     int tam = 0;
-//hay que cambiar esto por los corchetes, hacerlo con un iterador
+    //hay que cambiar esto por los corchetes, hacerlo con un iterador
     std::map<int,PaMedicamento>::iterator it_Medication = medication.begin();
     while (itLaboratorio != labs.end() && it_Medication != medication.end()) {
         this->suministrarMed(&it_Medication->second,&(*itLaboratorio));
@@ -280,21 +280,23 @@ MediExpress::MediExpress(const std::string &medicamentos, const std::string &lab
     //Aniadimos todos los cifs a cada farmacia
     //hay que cambiar esto, no vale j vale iterador cuando llegue al final
     std::map<int,PaMedicamento>::iterator it_asignar_LabsMedi = medication.begin();
-
-    for (int i= 0; i<vectorCIFS.size();i++) {
-        Farmacia farmaciaInsercion;
-        farmaciaInsercion.set_cif(vectorCIFS[i]);
-        Farmacia *farmacia_auxiliar = pharmacy.buscaRec(farmaciaInsercion);
-        int contador=0;
-        while (contador<100) {
-            suministrarFarmacia(farmacia_auxiliar,medication[indiceBucle].get_id_num());
-            if (indiceBucle==medication.size()-1) {
-                indiceBucle=0;
-            }else {
-                indiceBucle++;
-                contador++;
+    if (it_asignar_LabsMedi != medication.end()) { //No ha llegado al final
+        for (int i=0; i < vectorCIFS.size(); i++) {
+            Farmacia farmaciaInsercion;
+            farmaciaInsercion.set_cif(vectorCIFS[i]);
+            Farmacia *farmacia_auxiliar = pharmacy.push_back();
+            int contador=0;
+            while (contador<100) {
+                suministrarFarmacia(farmacia_auxiliar,medication[indiceBucle].get_id_num());
+                if (indiceBucle==medication.size()-1) {
+                    indiceBucle=0;
+                }else {
+                    indiceBucle++;
+                    contador++;
+                }
             }
         }
+    }
     }
 
 }
