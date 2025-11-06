@@ -38,6 +38,11 @@
 			"language" : "CXX",
 			"source" : "C:/Users/pablo/Downloads/Segundo Curso/Estructuras/Practicas/Practica4/PaMedicamento.cpp"
 		},
+		"CMakeFiles/Practica4.dir/Stock.cpp.obj" : 
+		{
+			"language" : "CXX",
+			"source" : "C:/Users/pablo/Downloads/Segundo Curso/Estructuras/Practicas/Practica4/Stock.cpp"
+		},
 		"CMakeFiles/Practica4.dir/main.cpp.obj" : 
 		{
 			"language" : "CXX",

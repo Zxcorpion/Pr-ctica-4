@@ -1,6 +1,4 @@
-//
-// Created by admin on 21/10/2025.
-//
+
 
 #ifndef PRACTICA3_MEDIEXPRESS_H
 #define PRACTICA3_MEDIEXPRESS_H
@@ -9,8 +7,6 @@
 #include <string>
 #include <sstream>
 #include <ctime>
-
-#include "AVL.h"
 #include "PaMedicamento.h"
 #include "Laboratorio.h"
 #include <map>
@@ -26,7 +22,7 @@ class MediExpress {
 private:
     std::map<int,PaMedicamento> medication;
     std::list<Laboratorio> labs;
-    AVL<Farmacia> pharmacy;
+    std::vector<Farmacia> pharmacy;
 public:
     MediExpress();
     MediExpress(const std::string &medicamentos, const std::string &laboratorios, const std::string &farmacias);
@@ -49,7 +45,8 @@ public:
     PaMedicamento* buscaCompuesto(const int &ID_);
     void suministrarFarmacia(Farmacia *farma, int id_num, int robin);
     Farmacia* buscaFarmacia(const std::string &nombreFar);
-
+    bool eliminarMedicamento(const unsigned int &if_num);
+    std::vector<Farmacia*> buscar_Farmacia_Provincia(const std::string &nombreProvin);
 };
 
 #endif //PRACTICA3_MEDIEXPRESS_H

@@ -1,6 +1,3 @@
-//
-// Created by admin on 21/10/2025.
-//
 
 #ifndef PRACTICA3_FARMACIA_H
 #define PRACTICA3_FARMACIA_H
@@ -10,6 +7,7 @@
 #include "Lista.h"
 #include "PaMedicamento.h"
 #include <vector>
+
 class MediExpress;
 
 /**
@@ -20,8 +18,9 @@ private:
     std::string cif_="-",provincia_="-",localidad_="-",
     nombre_="-",direccion_="-",codPostal_="-";
     MediExpress* linkMedi;
-    std::set<Stock>order;
+    std::set<Stock> order;
     int buscaMedicam(int& id_num);
+    void pedidoMedicam(int& id_num, int& robin);
 public:
     Farmacia(std::string cif="-",std::string provincia="-",std::string localidad="-",
     std::string nombre="-",std::string direccion="-",std::string codPostal="-", MediExpress *link=0);
@@ -45,11 +44,12 @@ public:
     bool operator==(const Farmacia &orig) const;
     bool operator<(const Farmacia &orig) const;
     bool operator>(const Farmacia &orig) const;
-    void pedidoMedicam(int& id_num, int& robin);
+
     PaMedicamento* comprarMedicam(int& id_num, int& robin);
     void nuevoStock(PaMedicamento* batmelatonina,int& robin);
-    bool eliminarStock(int& id_num);
+    bool eliminarStock(const int &id_num);
 };
+
 
 
 #endif //PRACTICA3_FARMACIA_H

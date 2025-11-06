@@ -1,13 +1,15 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
+#include <vector>
+#include <list>
+#include <map>
+#include <set>
 #include "MediExpress.h"
 #include "PaMedicamento.h"
 #include "Laboratorio.h"
-#include <vector>
-#include <list>
-#include "AVL.h"
 #include "Farmacia.h"
+#include "Stock.h"
 
 /**
  * @brief Funcion que sirve para leer datos de un fichero e introducirlos en un arbol AVL
@@ -241,11 +243,11 @@ int main() {
     std::cout<<"Mostrando farmacias desde inorden";
     std::cout<<"\n";
 
-    std::vector<Farmacia> vectorInorden = arbol1.recorreInorden();
-    for (int i = 0; i<100; i++) {
-        std::cout<<"Farmacia numero "<< i+1<<std::endl;
-        mostrarFarmacia(vectorInorden[i]);
-    }
+    //std::vector<Farmacia> vectorInorden = arbol1.recorreInorden();
+    // for (int i = 0; i<100; i++) {
+    //     std::cout<<"Farmacia numero "<< i+1<<std::endl;
+    //     mostrarFarmacia(vectorInorden[i]);
+    // }
     std::cout<<"\n";
     //Prueba 2
 
@@ -258,7 +260,7 @@ int main() {
         "B66046640","E66748344", "47640201W", "B66621954", "46121385Z","X6806622W","46046390E"
     };
 
-
+/*
     std::cout<<"\n";
     int id=3640;
     for (int i = 0; i<27; i++) {
@@ -272,7 +274,7 @@ int main() {
             farmaOxido->pedidoMedicam(id);
         }
     }
-    std::map<int,PaMedicamento*> medicamentosOxido= medi.buscaCompuesto("MAGNESIO");
+    std::vector<PaMedicamento*> medicamentosOxido= medi.buscaCompuesto("MAGNESIO");
     std::list<Laboratorio*> labsOxido;
     for (int i = 0; i<medicamentosOxido.size(); i++) {
         if (medicamentosOxido[i]->getServe()) {
@@ -293,13 +295,17 @@ int main() {
             }
         }
     }
-    */
+
     std::cout<<"\n";
     std::cout<<"Laboratorios que suministran medicamentos con virus:"<<std::endl;
     for (int j=0; j<labsVirus.size(); j++) {
         std::cout<<"Nombre: "<<labsVirus[j]->getNomrbeLab()<<std::endl;
     }
-
+    */
+    Farmacia f;
+    Stock stocker;
+    PaMedicamento pa;
+    stocker.set_number(&pa);
 
 
     return 0;

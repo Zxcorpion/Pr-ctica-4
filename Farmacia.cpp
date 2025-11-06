@@ -183,31 +183,31 @@ void Farmacia::pedidoMedicam(int& id_num, int& robin) {
 }
 
 /**
- * @brief Fucnion para encontrar un medicamento segun su ID
- * @param ID del PAmedicamento a buscar
- * @return PAmedicamento a buscar segun su ID
- * @post El PAmedicamento a buscar es devuelto, en casod e no encontrarlo se devuelve nullptr
+ * @brief Metodo que devuelve el stock que tiene una farmacia sobre un PAmedicamento
+ * @param id_num ID del PAmedicamento
+ * @return Stock de la farmacia sobre un PAmedicamento
+ * @post El metodo nos devuelve el numero de unidades de un PAmedicamento que dispone una farmacia
  */
 int Farmacia::buscaMedicam(int& id_num) {
-    //Creamos un stock para usarlo
+    //Creamos un stock para buscarlo
     Stock ss1(id_num);
     //Creamos un iterador y usamos la funcion find para encontrar el medicamento con el id pasado por cabecera, creando uno con el id
-    std::set<Stock>::iterator it=order.find(ss1);
-    if (it!=order.end() && it->getNumStock()>0) {
-        return it->getNumStock();
-    }else {
-        //Si no existe o no lo queda stock devuelve 0
-        return 0;
+    std::set<Stock>::iterator it = order.find(ss1);
+    if (it != order.end() && it->get_num_stock()>0) {
+        return it->get_num_stock();
     }
-    return 0;
+        //Si no existe o no le queda stock devuelve 0
+        return 0;
 }
+
+
 PaMedicamento *Farmacia::comprarMedicam(int &id_num, int &robinunidades) {
     if(buscaMedicam(id_num) > robinunidades) {
         //Creamos un stock con el id del medicamento que queremos comprar
         Stock aux1(id_num);
         //buscamos en nuestro order el medicamente mediante la funcion find
         std::set<Stock>::iterator it1 = order.find(aux1);
-        //Lo guardo en una auxiliar para porder modificarlo
+        //Lo guardo en una auxiliar para poder modificarlo
         Stock aux2 = *it1;
         //Lo eliminamos ya que para modificar un objeto del order, antes hay que sacarlo
         order.erase(it1);
@@ -218,10 +218,11 @@ PaMedicamento *Farmacia::comprarMedicam(int &id_num, int &robinunidades) {
     }else {
         //Si no hay suificiente stock llamamos a pedidoMedicam y le pasamos el numero de unidades que necesitamos
         int aux3=buscaMedicam(id_num);
-        aux3=aux3-robinunidades;
+        aux3=robinunidades-aux3;
         pedidoMedicam(id_num,aux3);
     }
 }
+
 void Farmacia::nuevoStock(PaMedicamento *batmelatonina, int &robin) {
     Stock bat1(batmelatonina->get_id_num());
     std::set<Stock>::iterator it1 = order.find(bat1);
@@ -238,9 +239,26 @@ void Farmacia::nuevoStock(PaMedicamento *batmelatonina, int &robin) {
         order.insert(nuevorobin);
     }
 }
-bool Farmacia::eliminarStock(int &id_num) {
 
+//pablo, (preguntar a profesor a que se refiere con exito)
+/**
+ * @brief Metodo que elimina el stock de un PAmedicamento
+ * @param id_num ID del PAmedicamento
+ * @return[true] Si se ha eliminado correctamente
+ * @return[false] Si no se ha borrado con exito
+ * @post Cuando una farmacia descataloga un PAmedicamento, lo borra de su stock
+ */
+bool Farmacia::eliminarStock(const int &id_num) {
+    //Primero creo un stock y con find lo busco dentro del mapa
+    Stock buscado(id_num);
+    std::set<Stock>::iterator itPennyworth = order.find(buscado);
+    if(itPennyworth != order.end()) { //Si el iterador ha encontrado correctamente el PAmedicamento
+    //Una vez localizado, procedo a borrarlo
+        order.erase(itPennyworth);
+    }else {
+        return false;
+    }
+    return true;
 }
-
 
 

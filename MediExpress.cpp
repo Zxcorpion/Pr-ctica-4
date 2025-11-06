@@ -1,5 +1,4 @@
 #include "MediExpress.h"
-
 #include <map>
 
 
@@ -54,11 +53,7 @@ MediExpress::MediExpress(const std::string &medicamentos, const std::string &lab
                 }
 
                 PaMedicamento medicamento(id_num,id_alpha,nombre);
-                try {
-                    medication.insert(medicamento);
-                }catch (std::out_of_range &e) {
-                    std::cerr<<e.what()<<std::endl;
-                }
+                medication.insert(std::pair<int,PaMedicamento>(id_num,medicamento));
 
                 fila="";
                 columnas.clear();
@@ -214,7 +209,7 @@ MediExpress::MediExpress(const std::string &medicamentos, const std::string &lab
 
                 Farmacia farmacia_(cif_,provincia_,localidadLab_,nombre_, direccionLab_, codPostal_,this);
                 try {
-                    pharmacy.insertar(farmacia_);
+                    pharmacy.push_back(farmacia_);
                 }catch (std::out_of_range &e) {
                     std::cerr<<e.what()<<std::endl;
                 }
@@ -423,8 +418,9 @@ std::vector<PaMedicamento*> MediExpress::getMedicamentoSinLab() {
     std::vector<PaMedicamento*> aux;
     std::map<int,PaMedicamento>::iterator it_busca_SinLab = medication.begin();
     while (it_busca_SinLab != medication.end()) {
-        if (!it_busca_SinLab->second.servidoPor)
+        if (it_busca_SinLab->second.getServe() == 0)
         aux.push_back(&(it_busca_SinLab->second));
+        it_busca_SinLab++;
     }
     return aux;
 }
@@ -497,9 +493,15 @@ void MediExpress::suministrarFarmacia(Farmacia *farma, int id_num, int robin) {
  * @return puntero de la farmacia encontrada
  */
 Farmacia *MediExpress::buscaFarmacia(const std::string &cif_) {
-    Farmacia auxiliar;
-    auxiliar.set_cif(cif_);
-    return pharmacy.buscaRec(auxiliar);
+    //Creamos un objeto de tipo farmacia para buscarlo
+    std::vector<Farmacia>::iterator batFarmacia = pharmacy.begin();
+    while(batFarmacia != pharmacy.end()) {
+        if (batFarmacia->get_cif() == cif_) {
+            return &(*batFarmacia);
+        }
+        batFarmacia++;
+    }
+    return 0;
 }
 
 /**
@@ -517,3 +519,45 @@ std::list<Laboratorio*> MediExpress::buscarLabs(const std::string &nombrePA) {
    }
     return lista;
 }
+
+/**
+ * @brief Metodo que busca las farmacias de una determinada provincia y devuelve un vector con ellas
+ * @param nombreProvin Nombre de la provincia sobre la que buscamos
+ * @return Vector de Farmacias* de una provincia
+ * @post Se crea un vector de Farmacias*, donde almacenamos aquellas farmacias pertenecientes a una provincia determinada
+ */
+std::vector<Farmacia*> MediExpress::buscar_Farmacia_Provincia(const std::string &nombreProvin) {
+    std::vector<Farmacia*> farmacias_Nightwing;
+    for (int i=0;i<pharmacy.size();i++) {
+        if (pharmacy[i].get_provincia().find(nombreProvin) != std::string::npos) {
+            farmacias_Nightwing.push_back(&(pharmacy[i]));
+        }
+    }
+    return farmacias_Nightwing;
+}
+
+/**
+ * @brief Metodo para eliminar un PAmedicamento de Mediexpress
+ * @param if_num ID del numero
+ * @return[true] Si el borrado ha sido exitoso
+ * @return[false] Si no se ha borrado correctamente
+ * @post El PAmedicamento y su stock quedan eliminados
+ */
+bool MediExpress::eliminarMedicamento(const unsigned int &if_num) {
+    //Localizamos primero todos los medicamentos
+    std::map<int,PaMedicamento>::iterator itTodd= medication.find(if_num);
+    //Eliminamos primero ese medicamento de MediExpress
+    if (itTodd != medication.end()) {
+        medication.erase(itTodd);
+    }else {
+        return false;
+    }
+    //Posteriormente, debemos eliminar el stock restante de TODAS las farmacias
+    for (int i=0;i<pharmacy.size();i++) {
+        pharmacy[i].eliminarStock(if_num);
+    }
+    return true;
+}
+
+
+

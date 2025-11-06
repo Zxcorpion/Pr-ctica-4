@@ -9,3 +9,5 @@ build CMakeFiles/Practica4.dir/MediExpress.cpp.obj: dyndep
 
 build CMakeFiles/Practica4.dir/PaMedicamento.cpp.obj: dyndep
 
+build CMakeFiles/Practica4.dir/Stock.cpp.obj: dyndep
+

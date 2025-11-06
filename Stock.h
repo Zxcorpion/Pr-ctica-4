@@ -1,9 +1,9 @@
 //
-// Created by marco on 05/11/2025.
+// Created by pablo on 05/11/2025.
 //
 
-#ifndef STOCK_H
-#define STOCK_H
+#ifndef PRACTICA4_STOCK_H
+#define PRACTICA4_STOCK_H
 
 #include "PaMedicamento.h"
 
@@ -11,23 +11,24 @@ class Stock {
 private:
     int id_Pa_Med=0;
     int num_stock=0;
-    PaMedicamento* number=nullptr;
+    PaMedicamento* number= 0;
 public:
-    Stock();
-    Stock(int id=0, int num=0);
+    Stock(int id=0, int num=0, PaMedicamento* number_=0);
     Stock(const Stock& orig);
     virtual ~Stock();
-    int getId_Pa_Med()const;
-    int getNumStock()const;
-    void setId_Pa_Med(int& parametro);
-    void setNumStock(int& parametro);
-    void incrementa(int cantidad);
-    void decrementa(int cantidad);
-    bool operator<(const Stock& parametro);
-    bool operator==(const Stock& parametro);
-    void set_PaMedicamento(PaMedicamento* aux);
+
+    int get_id_pa_med() const;
+    void set_id_pa_med(int id_pa_med);
+    int get_num_stock() const;
+    void set_num_stock(int num_stock);
+    PaMedicamento * get_number() const;
+    void set_number(PaMedicamento *number);
+
+    void incrementa(const int &cantidad);
+    void decrementa(const int &cantidad);
+    bool operator< (const Stock& parametro) const;
+    bool operator==(const Stock& parametro) const;
+
 };
 
-
-
-#endif //STOCK_H
+#endif //PRACTICA4_STOCK_H
