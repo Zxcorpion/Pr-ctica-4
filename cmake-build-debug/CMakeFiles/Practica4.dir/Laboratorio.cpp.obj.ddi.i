@@ -41755,3 +41755,19 @@ const std::string &Laboratorio::getLocalidad() const {
 void Laboratorio::setLocalidad(const std::string &localidad) {
     Laboratorio::localidad = localidad;
 }
+
+
+
+
+
+
+Laboratorio &Laboratorio::operator=(const Laboratorio &orig) {
+    if (this != &orig) {
+        id = orig.id;
+        nombreLab = orig.nombreLab;
+        direccion = orig.direccion;
+        codiPostal = orig.codiPostal;
+        localidad = orig.localidad;
+    }
+    return (*this);
+}

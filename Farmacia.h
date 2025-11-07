@@ -4,7 +4,6 @@
 #include <iostream>
 #include <set>
 #include "Stock.h"
-#include "Lista.h"
 #include "PaMedicamento.h"
 #include <vector>
 

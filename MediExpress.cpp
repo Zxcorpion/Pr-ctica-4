@@ -140,13 +140,15 @@ MediExpress::MediExpress(const std::string &medicamentos, const std::string &lab
 
     //Enlazamos cada laboratorio con 2 PAmedicamentos
     std::list<Laboratorio>::iterator itLaboratorio = labs.begin();
-    int tam = 0;
-    //hay que cambiar esto por los corchetes, hacerlo con un iterador
     std::map<int,PaMedicamento>::iterator it_Medication = medication.begin();
     while (itLaboratorio != labs.end() && it_Medication != medication.end()) {
         this->suministrarMed(&it_Medication->second,&(*itLaboratorio));
-        this->suministrarMed(&it_Medication->second,&(*itLaboratorio));
         it_Medication++;
+        //Comprobamos si no hemos llegado al final
+        if (it_Medication != medication.end()) {
+            this->suministrarMed(&it_Medication->second,&(*itLaboratorio));
+            it_Medication++;
+        }
         itLaboratorio++;
     }
     //int cont=0;
@@ -297,8 +299,6 @@ MediExpress::MediExpress(const std::string &medicamentos, const std::string &lab
             }
         }
     }
-    }
-
 }
 
 /**
@@ -478,9 +478,10 @@ void MediExpress::suministrarFarmacia(Farmacia *farma, int id_num, int robin) {
     //De entre todas las opciones para buscar en un map usamos find
     std::map<int,PaMedicamento>::iterator it=medication.find(id_num);
     //Comprobamos si lo hemos encontrado, de ser asi llamamos a nuevostock
-    if(it!=medication.end()) {
+    if(it != medication.end()) {
         farma->nuevoStock(&it->second,robin);
     }
+
     /* PaMedicamento *medicam = buscaCompuesto(id_num);
     if (medicam) {
         farma->nuevoStock(medicam,n);

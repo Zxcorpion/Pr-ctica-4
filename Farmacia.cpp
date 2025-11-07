@@ -216,14 +216,16 @@ std::vector<PaMedicamento *> Farmacia::buscaMedicamNombre(const std::string &nom
             vectorcillo.push_back(iteradorCillo->get_number());
             iteradorCillo++;
         }
-        return vectorcillo;
     }
+    return vectorcillo;
 }
 
 
 
 int Farmacia::comprarMedicam(const int &id_num,const int &robinunidades, PaMedicamento *paMed) {
-    if(buscaMedicamID(id_num) > robinunidades) {
+    int stock_PaMed = buscaMedicamID(id_num);
+    //Comprobamos que hay unidades suficientes
+    if(stock_PaMed > robinunidades) {
         //Creamos un stock con el id del medicamento que queremos comprar
         Stock aux1(id_num);
         //buscamos en nuestro order el medicamente mediante la funcion find
@@ -232,16 +234,20 @@ int Farmacia::comprarMedicam(const int &id_num,const int &robinunidades, PaMedic
         Stock aux2 = *it1;
         //Lo eliminamos ya que para modificar un objeto del order, antes hay que sacarlo
         order.erase(it1);
-        //Cojemos las unidades necesarias
+        //Cogemos las unidades necesarias
         aux2.decrementa(robinunidades);
         //Lo volvemos a insertar en nuestro order
         order.insert(aux2);
-        return (order.find(aux2))->get_number();
+        //paMed es el medicamento que hemos comprado y sale por cabecera
+        paMed = linkMedi->buscaCompuesto(id_num);
+        //Tiene que devolver el numero de stock que habia inicialmente
+        return stock_PaMed;
     }else {
         //Si no hay suificiente stock llamamos a pedidoMedicam y le pasamos el numero de unidades que necesitamos
-        int aux3=buscaMedicamID(id_num);
-        aux3=robinunidades-aux3;
+        int aux3 = buscaMedicamID(id_num);
+        aux3 = robinunidades-aux3;
         pedidoMedicam(id_num,aux3);
+        paMed = linkMedi->buscaCompuesto(id_num);
         return 0;
     }
 }
@@ -260,6 +266,7 @@ void Farmacia::nuevoStock(PaMedicamento *batmelatonina, int &robin) {
         Stock nuevorobin(batmelatonina->get_id_num(),robin);
         //Para enlazarlo correctamente con PaMedicamente lo insertamos en el order
         order.insert(nuevorobin);
+        //tenemos que enlazar todavia
     }
 }
 
