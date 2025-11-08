@@ -286,14 +286,14 @@ MediExpress::MediExpress(const std::string &medicamentos, const std::string &lab
         for (int i=0; i < vectorCIFS.size(); i++) {
             Farmacia farmaciaInsercion;
             farmaciaInsercion.set_cif(vectorCIFS[i]);
-            Farmacia *farmacia_auxiliar = pharmacy.push_back();
+            Farmacia *hola = this->buscaFarmacia(vectorCIFS[i]);
             int contador=0;
             while (contador<100) {
-                suministrarFarmacia(farmacia_auxiliar,medication[indiceBucle].get_id_num());
-                if (indiceBucle==medication.size()-1) {
-                    indiceBucle=0;
-                }else {
-                    indiceBucle++;
+                suministrarFarmacia(hola,it_asignar_LabsMedi->second.get_id_num(),10);
+                if (it_asignar_LabsMedi == --medication.end()) { //Si he llegado al final de los medicamentos, reseteo el iterador para volver a asignar
+                    it_asignar_LabsMedi = medication.begin();
+                }else{
+                    it_asignar_LabsMedi++;
                     contador++;
                 }
             }
