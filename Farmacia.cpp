@@ -222,10 +222,10 @@ std::vector<PaMedicamento *> Farmacia::buscaMedicamNombre(const std::string &nom
 
 
 
-int Farmacia::comprarMedicam(const int &id_num,const int &robinunidades, PaMedicamento *paMed) {
+int Farmacia::comprarMedicam(const int &id_num,const int &robinunidades, PaMedicamento *&paMed) {
     int stock_PaMed = buscaMedicamID(id_num);
     //Comprobamos que hay unidades suficientes
-    if(stock_PaMed > robinunidades) {
+    if(stock_PaMed >= robinunidades) {
         //Creamos un stock con el id del medicamento que queremos comprar
         Stock aux1(id_num);
         //buscamos en nuestro order el medicamente mediante la funcion find
@@ -238,8 +238,7 @@ int Farmacia::comprarMedicam(const int &id_num,const int &robinunidades, PaMedic
         aux2.decrementa(robinunidades);
         //Lo volvemos a insertar en nuestro order
         order.insert(aux2);
-        //paMed es el medicamento que hemos comprado y sale por cabecera
-        paMed = linkMedi->buscaCompuesto(id_num);
+
         //Tiene que devolver el numero de stock que habia inicialmente
         return stock_PaMed;
     }else {
@@ -247,7 +246,6 @@ int Farmacia::comprarMedicam(const int &id_num,const int &robinunidades, PaMedic
         int aux3 = buscaMedicamID(id_num);
         aux3 = robinunidades-aux3;
         pedidoMedicam(id_num,aux3);
-        paMed = linkMedi->buscaCompuesto(id_num);
         return 0;
     }
 }

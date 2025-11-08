@@ -50813,7 +50813,7 @@ public:
 
     int buscaMedicamID(const int &id_num);
     std::vector<PaMedicamento*> buscaMedicamNombre(const std::string &nombresito);
-    int comprarMedicam(const int &id_num,const int &robin, PaMedicamento *paMed);
+    int comprarMedicam(const int &id_num,const int &robin, PaMedicamento *&paMed);
     void nuevoStock(PaMedicamento* batmelatonina,int &robin);
     bool eliminarStock(const int &id_num);
 };
@@ -58715,10 +58715,10 @@ std::vector<PaMedicamento *> Farmacia::buscaMedicamNombre(const std::string &nom
 
 
 
-int Farmacia::comprarMedicam(const int &id_num,const int &robinunidades, PaMedicamento *paMed) {
+int Farmacia::comprarMedicam(const int &id_num,const int &robinunidades, PaMedicamento *&paMed) {
     int stock_PaMed = buscaMedicamID(id_num);
 
-    if(stock_PaMed > robinunidades) {
+    if(stock_PaMed >= robinunidades) {
 
         Stock aux1(id_num);
 
@@ -58732,15 +58732,13 @@ int Farmacia::comprarMedicam(const int &id_num,const int &robinunidades, PaMedic
 
         order.insert(aux2);
 
-        paMed = linkMedi->buscaCompuesto(id_num);
 
         return stock_PaMed;
     }else {
 
-        int aux3=buscaMedicamID(id_num);
-        aux3=robinunidades-aux3;
+        int aux3 = buscaMedicamID(id_num);
+        aux3 = robinunidades-aux3;
         pedidoMedicam(id_num,aux3);
-        paMed = linkMedi->buscaCompuesto(id_num);
         return 0;
     }
 }
@@ -58759,9 +58757,10 @@ void Farmacia::nuevoStock(PaMedicamento *batmelatonina, int &robin) {
         Stock nuevorobin(batmelatonina->get_id_num(),robin);
 
         order.insert(nuevorobin);
+
     }
 }
-# 280 "C:/Users/pablo/Downloads/Segundo Curso/Estructuras/Practicas/Practica4/Farmacia.cpp"
+# 279 "C:/Users/pablo/Downloads/Segundo Curso/Estructuras/Practicas/Practica4/Farmacia.cpp"
 bool Farmacia::eliminarStock(const int &id_num) {
 
     Stock buscado(id_num);

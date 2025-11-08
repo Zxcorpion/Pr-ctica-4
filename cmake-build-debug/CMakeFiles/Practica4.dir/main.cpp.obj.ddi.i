@@ -58437,7 +58437,7 @@ public:
 
     int buscaMedicamID(const int &id_num);
     std::vector<PaMedicamento*> buscaMedicamNombre(const std::string &nombresito);
-    int comprarMedicam(const int &id_num,const int &robin, PaMedicamento *paMed);
+    int comprarMedicam(const int &id_num,const int &robin, PaMedicamento *&paMed);
     void nuevoStock(PaMedicamento* batmelatonina,int &robin);
     bool eliminarStock(const int &id_num);
 };
@@ -58495,6 +58495,40 @@ void mostrarFarmacia(Farmacia &farma) {
 
 int main() {
 
+    MediExpress medBatman("../pa_medicamentos.csv","../lab2.csv","../farmacias.csv");
+    std::vector<Farmacia*> farmas_Sevilla = medBatman.buscar_Farmacia_Provincia("SEVILLA");
+    std::cout<<"Farmacias encontradas: "<< farmas_Sevilla.size()<<std::endl;
+    int id_Magnes = 3640, id_Carbonato = 3632, id_Cloruro = 3633;
+    PaMedicamento *oxido = 0, *carbonato = 0,*cloruro = 0;
+
+
+
+    for (int i = 0;i < farmas_Sevilla.size(); i++) {
+        int stock_Magnesio = farmas_Sevilla[i]->buscaMedicamID(id_Magnes);
+        int stock_Carbonat = farmas_Sevilla[i]->buscaMedicamID(id_Carbonato);
+        int stock_Clorur = farmas_Sevilla[i]->buscaMedicamID(id_Cloruro);
+
+        std::cout<<"==============================="<<std::endl;
+        std::cout<<"Stock de cada medicamento de la Farmacia "<<i+1<< ": "<<farmas_Sevilla[i]->get_nombre()<<std::endl;
+        std::cout<<"Oxido: "<<stock_Magnesio<<", Carbonato: "<<stock_Carbonat<<", Cloruro: "<<stock_Clorur<<std::endl;
+        std::cout<<"==============================="<<std::endl;
+
+        for (int j = 0; j < 12; j++) {
+
+            if (farmas_Sevilla[i]->comprarMedicam(id_Magnes,1,oxido) > 0) {
+
+            }else if (farmas_Sevilla[i]->comprarMedicam(id_Carbonato,1,carbonato) > 0) {
+                std::cout<<"no hay oxido"<<std::endl;
+
+            }else if (farmas_Sevilla[i]->comprarMedicam(id_Cloruro,1,cloruro) > 0) {
+                std::cout<<"no hay carbonato"<<std::endl;
+
+            }else{
+                std::cout<<"La farmacia "<<farmas_Sevilla[i]->get_nombre()<<" no posee ninguno de los PaMeds que necesita, lo sentimos ^_^'"<<std::endl;
+
+            }
+        }
+    }
 
 
 

@@ -58450,7 +58450,7 @@ public:
 
     int buscaMedicamID(const int &id_num);
     std::vector<PaMedicamento*> buscaMedicamNombre(const std::string &nombresito);
-    int comprarMedicam(const int &id_num,const int &robin, PaMedicamento *paMed);
+    int comprarMedicam(const int &id_num,const int &robin, PaMedicamento *&paMed);
     void nuevoStock(PaMedicamento* batmelatonina,int &robin);
     bool eliminarStock(const int &id_num);
 };
@@ -58549,21 +58549,17 @@ MediExpress::MediExpress(const std::string &medicamentos, const std::string &lab
 
                 fila="";
                 columnas.clear();
-
-                std::cout << ++contador
-                          << " Medicamento: ( Id_number=" << id_num
-                          << " id_alpha=" << id_alpha << " Nombre=" << nombre
-                          << ")" << std::endl;
+# 68 "C:/Users/pablo/Downloads/Segundo Curso/Estructuras/Practicas/Practica4/MediExpress.cpp"
             }
         }
 
         is.close();
 
-        std::cout << "Tiempo de lectura: " << ((clock() - t_ini) / (float) 
-# 70 "C:/Users/pablo/Downloads/Segundo Curso/Estructuras/Practicas/Practica4/MediExpress.cpp" 3
-                                                                          1000
-# 70 "C:/Users/pablo/Downloads/Segundo Curso/Estructuras/Practicas/Practica4/MediExpress.cpp"
-                                                                                        ) << " segs." << std::endl;
+        std::cout << "Tiempo de lectura de meds: " << ((clock() - t_ini) / (float) 
+# 73 "C:/Users/pablo/Downloads/Segundo Curso/Estructuras/Practicas/Practica4/MediExpress.cpp" 3
+                                                                                  1000
+# 73 "C:/Users/pablo/Downloads/Segundo Curso/Estructuras/Practicas/Practica4/MediExpress.cpp"
+                                                                                                ) << " segs." << std::endl;
     } else {
         std::cout << "Error de apertura en archivo" << std::endl;
     }
@@ -58617,39 +58613,35 @@ MediExpress::MediExpress(const std::string &medicamentos, const std::string &lab
                 }catch (std::out_of_range &e) {
                     std::cerr<<e.what()<<std::endl;
                 }
-
-
-                std::cout << ++contador
-                          << " Laboratorio: ( Id= " << id_numero
-                          << " Nombre= " << nombreLab_ << " Direccion= " << direccion_
-                          << " Codigo Postal= " <<codigPostal_
-                          << " Localidad= "<< localidad_ <<std::endl;
+# 136 "C:/Users/pablo/Downloads/Segundo Curso/Estructuras/Practicas/Practica4/MediExpress.cpp"
             }
         }
 
         is.close();
 
-        std::cout << "Tiempo de lectura: " << ((clock() - t_ini) / (float) 
-# 136 "C:/Users/pablo/Downloads/Segundo Curso/Estructuras/Practicas/Practica4/MediExpress.cpp" 3
-                                                                          1000
-# 136 "C:/Users/pablo/Downloads/Segundo Curso/Estructuras/Practicas/Practica4/MediExpress.cpp"
-                                                                                        ) << " segs." << std::endl;
+        std::cout << "Tiempo de lectura de labs: " << ((clock() - t_ini) / (float) 
+# 141 "C:/Users/pablo/Downloads/Segundo Curso/Estructuras/Practicas/Practica4/MediExpress.cpp" 3
+                                                                                  1000
+# 141 "C:/Users/pablo/Downloads/Segundo Curso/Estructuras/Practicas/Practica4/MediExpress.cpp"
+                                                                                                ) << " segs." << std::endl;
     } else {
         std::cout << "Error de apertura en archivo" << std::endl;
     }
 
 
     std::list<Laboratorio>::iterator itLaboratorio = labs.begin();
-    int tam = 0;
-
     std::map<int,PaMedicamento>::iterator it_Medication = medication.begin();
     while (itLaboratorio != labs.end() && it_Medication != medication.end()) {
         this->suministrarMed(&it_Medication->second,&(*itLaboratorio));
-        this->suministrarMed(&it_Medication->second,&(*itLaboratorio));
         it_Medication++;
+
+        if (it_Medication != medication.end()) {
+            this->suministrarMed(&it_Medication->second,&(*itLaboratorio));
+            it_Medication++;
+        }
         itLaboratorio++;
     }
-# 163 "C:/Users/pablo/Downloads/Segundo Curso/Estructuras/Practicas/Practica4/MediExpress.cpp"
+# 170 "C:/Users/pablo/Downloads/Segundo Curso/Estructuras/Practicas/Practica4/MediExpress.cpp"
     std::vector<Laboratorio*> labsMadrid = this->buscarLabCiudad("Madrid");
     std::vector<PaMedicamento*> medSin = this->getMedicamentoSinLab();
     std::cout << "Medicamentos sin asignar: " << medSin.size() << std::endl;
@@ -58657,7 +58649,7 @@ MediExpress::MediExpress(const std::string &medicamentos, const std::string &lab
     for (int i = 0; i < medSin.size(); i++) {
         medSin[i]->servidoPor(labsMadrid[i]);
     }
-# 181 "C:/Users/pablo/Downloads/Segundo Curso/Estructuras/Practicas/Practica4/MediExpress.cpp"
+# 188 "C:/Users/pablo/Downloads/Segundo Curso/Estructuras/Practicas/Practica4/MediExpress.cpp"
     std::string cif_ = "";
     std::string provincia_= "";
     std::string localidadLab_= "";
@@ -58698,21 +58690,16 @@ MediExpress::MediExpress(const std::string &medicamentos, const std::string &lab
                 columnas.str(std::string());
                 columnas.clear();
                 columnas.str(fila);
-
-                std::cout << ++contador
-                          << " Farmacia: ( CIF = " << cif_
-                          << " Provincia = " << provincia_ << " Localidad = " << localidadLab_
-                          << " Nombre = " << nombre_ << " Direccion = " << direccionLab_ << " CodPostal = " << codPostal_
-                          << ")" << std::endl;
+# 238 "C:/Users/pablo/Downloads/Segundo Curso/Estructuras/Practicas/Practica4/MediExpress.cpp"
             }
         }
 
         is.close();
 
         std::cout << "Tiempo de lectura: " << ((clock() - t_ini) / (float) 
-# 232 "C:/Users/pablo/Downloads/Segundo Curso/Estructuras/Practicas/Practica4/MediExpress.cpp" 3
+# 243 "C:/Users/pablo/Downloads/Segundo Curso/Estructuras/Practicas/Practica4/MediExpress.cpp" 3
                                                                           1000
-# 232 "C:/Users/pablo/Downloads/Segundo Curso/Estructuras/Practicas/Practica4/MediExpress.cpp"
+# 243 "C:/Users/pablo/Downloads/Segundo Curso/Estructuras/Practicas/Practica4/MediExpress.cpp"
                                                                                         ) << " segs." << std::endl;
     } else {
         std::cout << "Error de apertura en archivo" << std::endl;
@@ -58747,23 +58734,45 @@ MediExpress::MediExpress(const std::string &medicamentos, const std::string &lab
                 columnas.clear();
                 columnas.str(fila);
 
-                std::cout << ++contador
-                          << " CIF de Farmacia = " << cif_
-                          << std::endl;
+
+
+
+
+
             }
         }
 
         is.close();
 
         std::cout << "Tiempo de lectura: " << ((clock() - t_ini) / (float) 
-# 274 "C:/Users/pablo/Downloads/Segundo Curso/Estructuras/Practicas/Practica4/MediExpress.cpp" 3
+# 287 "C:/Users/pablo/Downloads/Segundo Curso/Estructuras/Practicas/Practica4/MediExpress.cpp" 3
                                                                           1000
-# 274 "C:/Users/pablo/Downloads/Segundo Curso/Estructuras/Practicas/Practica4/MediExpress.cpp"
+# 287 "C:/Users/pablo/Downloads/Segundo Curso/Estructuras/Practicas/Practica4/MediExpress.cpp"
                                                                                         ) << " segs." << std::endl;
     } else {
         std::cout << "Error de apertura en archivo" << std::endl;
     }
-# 303 "C:/Users/pablo/Downloads/Segundo Curso/Estructuras/Practicas/Practica4/MediExpress.cpp"
+
+
+
+    std::map<int,PaMedicamento>::iterator it_asignar_LabsMedi = medication.begin();
+    if (it_asignar_LabsMedi != medication.end()) {
+        std::map<int,PaMedicamento>::iterator ultimoMedi = medication.end();
+        --ultimoMedi;
+        for (int i=0; i < vectorCIFS.size(); i++) {
+            Farmacia *farmacia_Insercion = this->buscaFarmacia(vectorCIFS[i]);
+            int contador=0;
+            while (contador<100) {
+                suministrarFarmacia(farmacia_Insercion,it_asignar_LabsMedi->second.get_id_num(),10);
+                if (it_asignar_LabsMedi == ultimoMedi) {
+                    it_asignar_LabsMedi = medication.begin();
+                }else{
+                    it_asignar_LabsMedi++;
+                }
+                contador++;
+            }
+        }
+    }
 }
 
 
@@ -58941,11 +58950,12 @@ PaMedicamento *MediExpress::buscaCompuesto(const int &ID_) {
 
 void MediExpress::suministrarFarmacia(Farmacia *farma, int id_num, int robin) {
 
-    std::map<int,PaMedicamento>::iterator it=medication.find(id_num);
+    std::map<int,PaMedicamento>::iterator it = medication.find(id_num);
 
-    if(it!=medication.end()) {
+    if(it != medication.end()) {
         farma->nuevoStock(&it->second,robin);
     }
+
 
 
 
@@ -59002,7 +59012,7 @@ std::vector<Farmacia*> MediExpress::buscar_Farmacia_Provincia(const std::string 
     }
     return farmacias_Nightwing;
 }
-# 549 "C:/Users/pablo/Downloads/Segundo Curso/Estructuras/Practicas/Practica4/MediExpress.cpp"
+# 559 "C:/Users/pablo/Downloads/Segundo Curso/Estructuras/Practicas/Practica4/MediExpress.cpp"
 bool MediExpress::eliminarMedicamento(const unsigned int &if_num) {
 
     std::map<int,PaMedicamento>::iterator itTodd= medication.find(if_num);

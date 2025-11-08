@@ -45,7 +45,7 @@ public:
 
     int buscaMedicamID(const int &id_num);
     std::vector<PaMedicamento*> buscaMedicamNombre(const std::string &nombresito);
-    int comprarMedicam(const int &id_num,const int &robin, PaMedicamento *paMed);
+    int comprarMedicam(const int &id_num,const int &robin, PaMedicamento *&paMed);
     void nuevoStock(PaMedicamento* batmelatonina,int &robin);
     bool eliminarStock(const int &id_num);
 };

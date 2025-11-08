@@ -58,16 +58,19 @@ MediExpress::MediExpress(const std::string &medicamentos, const std::string &lab
                 fila="";
                 columnas.clear();
 
+                /*
                 std::cout << ++contador
                           << " Medicamento: ( Id_number=" << id_num
                           << " id_alpha=" << id_alpha << " Nombre=" << nombre
                           << ")" << std::endl;
+                          */
+
             }
         }
 
         is.close();
 
-        std::cout << "Tiempo de lectura: " << ((clock() - t_ini) / (float) CLOCKS_PER_SEC) << " segs." << std::endl;
+        std::cout << "Tiempo de lectura de meds: " << ((clock() - t_ini) / (float) CLOCKS_PER_SEC) << " segs." << std::endl;
     } else {
         std::cout << "Error de apertura en archivo" << std::endl;
     }
@@ -123,17 +126,19 @@ MediExpress::MediExpress(const std::string &medicamentos, const std::string &lab
                 }
 
 
-                std::cout << ++contador
+                /*std::cout << ++contador
                           << " Laboratorio: ( Id= " << id_numero
                           << " Nombre= " << nombreLab_ << " Direccion= " << direccion_
                           << " Codigo Postal= " <<codigPostal_
                           << " Localidad= "<< localidad_ <<std::endl;
+                          */
+
             }
         }
 
         is.close();
 
-        std::cout << "Tiempo de lectura: " << ((clock() - t_ini) / (float) CLOCKS_PER_SEC) << " segs." << std::endl;
+        std::cout << "Tiempo de lectura de labs: " << ((clock() - t_ini) / (float) CLOCKS_PER_SEC) << " segs." << std::endl;
     } else {
         std::cout << "Error de apertura en archivo" << std::endl;
     }
@@ -221,11 +226,15 @@ MediExpress::MediExpress(const std::string &medicamentos, const std::string &lab
                 columnas.clear();
                 columnas.str(fila);
 
+
+                /*
                 std::cout << ++contador
                           << " Farmacia: ( CIF = " << cif_
                           << " Provincia = " << provincia_ << " Localidad = " << localidadLab_
                           << " Nombre = " << nombre_ << " Direccion = " << direccionLab_ << " CodPostal = " << codPostal_
                           << ")" << std::endl;
+                          */
+
             }
         }
 
@@ -265,9 +274,11 @@ MediExpress::MediExpress(const std::string &medicamentos, const std::string &lab
                 columnas.clear();
                 columnas.str(fila);
 
-                std::cout << ++contador
+                /*std::cout << ++contador
                           << " CIF de Farmacia = " << cif_
                           <<  std::endl;
+                          */
+
             }
         }
 
@@ -280,22 +291,21 @@ MediExpress::MediExpress(const std::string &medicamentos, const std::string &lab
 
 
     //Aniadimos todos los cifs a cada farmacia
-    //hay que cambiar esto, no vale j vale iterador cuando llegue al final
     std::map<int,PaMedicamento>::iterator it_asignar_LabsMedi = medication.begin();
     if (it_asignar_LabsMedi != medication.end()) { //No ha llegado al final
+        std::map<int,PaMedicamento>::iterator ultimoMedi = medication.end();
+        --ultimoMedi;
         for (int i=0; i < vectorCIFS.size(); i++) {
-            Farmacia farmaciaInsercion;
-            farmaciaInsercion.set_cif(vectorCIFS[i]);
-            Farmacia *hola = this->buscaFarmacia(vectorCIFS[i]);
+            Farmacia *farmacia_Insercion = this->buscaFarmacia(vectorCIFS[i]);
             int contador=0;
             while (contador<100) {
-                suministrarFarmacia(hola,it_asignar_LabsMedi->second.get_id_num(),10);
-                if (it_asignar_LabsMedi == --medication.end()) { //Si he llegado al final de los medicamentos, reseteo el iterador para volver a asignar
+                suministrarFarmacia(farmacia_Insercion,it_asignar_LabsMedi->second.get_id_num(),10);
+                if (it_asignar_LabsMedi == ultimoMedi) { //Si he llegado al final de los medicamentos, reseteo el iterador para volver a asignar
                     it_asignar_LabsMedi = medication.begin();
                 }else{
                     it_asignar_LabsMedi++;
-                    contador++;
                 }
+                contador++;
             }
         }
     }
@@ -476,7 +486,7 @@ PaMedicamento *MediExpress::buscaCompuesto(const int &ID_) {
  */
 void MediExpress::suministrarFarmacia(Farmacia *farma, int id_num, int robin) {
     //De entre todas las opciones para buscar en un map usamos find
-    std::map<int,PaMedicamento>::iterator it=medication.find(id_num);
+    std::map<int,PaMedicamento>::iterator it = medication.find(id_num);
     //Comprobamos si lo hemos encontrado, de ser asi llamamos a nuevostock
     if(it != medication.end()) {
         farma->nuevoStock(&it->second,robin);
