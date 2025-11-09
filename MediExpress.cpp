@@ -412,7 +412,6 @@ std::vector<Laboratorio*> MediExpress::buscarLabCiudad(const std::string &nombre
  */
 std::vector<PaMedicamento*> MediExpress::buscaCompuesto(const std::string &nombrePA) {
     std::vector<PaMedicamento*>auxiliar;
-
     for(std::map<int,PaMedicamento>::iterator aux = medication.begin();aux != medication.end();aux++) {
         if(aux->second.get_nombre().find(nombrePA) != std::string::npos) {
             auxiliar.push_back(&(aux->second));
@@ -470,7 +469,7 @@ void MediExpress::borrarLaboratorio(const std::string &nombreCiudad) {
  * @return PAmedicamento que se quiere buscar
  * @post El medicamento buscado es encontrado y devuelto, en caso de no encontrarse, se devuelve un puntero a null
  */
-PaMedicamento *MediExpress::buscaCompuesto(const int &ID_) {
+PaMedicamento *MediExpress::buscaCompuestoMed(const int &ID_) {
     for(std::map<int,PaMedicamento>::iterator it_Batman = medication.begin();it_Batman != medication.end();it_Batman++) {
         if(it_Batman->second.get_id_num() == ID_) {
             return &(it_Batman->second);
@@ -559,18 +558,20 @@ std::vector<Farmacia*> MediExpress::buscar_Farmacia_Provincia(const std::string 
 bool MediExpress::eliminarMedicamento(const unsigned int &if_num) {
     //Localizamos primero todos los medicamentos
     std::map<int,PaMedicamento>::iterator itTodd= medication.find(if_num);
-    //Eliminamos primero ese medicamento de MediExpress
+
     if (itTodd != medication.end()) {
+        //Primero, debemos eliminar el stock de TODAS las farmacias
+        for (int i=0;i<pharmacy.size();i++) {
+            pharmacy[i].eliminarStock(if_num);
+        }
+
+        itTodd->second.servidoPor(0);//Desenlazamos el objeto ya que es relacion de asociacion para destruirlo
+        //Eliminamos primero ese medicamento de MediExpress
         medication.erase(itTodd);
     }else {
         return false;
     }
-    //Posteriormente, debemos eliminar el stock restante de TODAS las farmacias
-    for (int i=0;i<pharmacy.size();i++) {
-        pharmacy[i].eliminarStock(if_num);
-    }
+
     return true;
 }
-
-
 

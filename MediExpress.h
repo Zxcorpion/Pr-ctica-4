@@ -42,9 +42,9 @@ public:
     std::vector<PaMedicamento*> buscaCompuesto(const std::string &nombrePA);
     std::vector<PaMedicamento*> getMedicamentoSinLab();
     void borrarLaboratorio(const std::string &nombreCiudad);
-    PaMedicamento* buscaCompuesto(const int &ID_);
+    PaMedicamento* buscaCompuestoMed(const int &ID_);
     void suministrarFarmacia(Farmacia *farma, int id_num, int robin);
-    Farmacia* buscaFarmacia(const std::string &nombreFar);
+    Farmacia* buscaFarmacia(const std::string &cif_);
     bool eliminarMedicamento(const unsigned int &if_num);
     std::vector<Farmacia*> buscar_Farmacia_Provincia(const std::string &nombreProvin);
 };

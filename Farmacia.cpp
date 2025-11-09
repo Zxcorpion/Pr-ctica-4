@@ -208,14 +208,17 @@ int Farmacia::buscaMedicamID(const int &id_num) {
  * @param nombresito Nombre del PAmedicamento
  * @return Vector de PAmedicamentos
  */
-std::vector<PaMedicamento *> Farmacia::buscaMedicamNombre(const std::string &nombresito) {
+std::vector<PaMedicamento*> Farmacia::buscaMedicamNombre(const std::string &nombresito) {
     std::vector<PaMedicamento*> vectorcillo;
-    std::set<Stock>::iterator iteradorCillo = order.begin();
-    while (iteradorCillo != order.end()) {
-        if (iteradorCillo->get_number()->get_nombre().find(nombresito) != std::string::npos) {
-            vectorcillo.push_back(iteradorCillo->get_number());
-            iteradorCillo++;
+    std::set<Stock>::iterator it = order.begin();
+    while (it != order.end()) {
+        PaMedicamento *med = it->get_number(); //Aqui guardamos el objeto tipo pamed sacado de order
+        if (med != 0) {
+            if (med->get_nombre().find(nombresito) != std::string::npos) {
+                vectorcillo.push_back(med);
+            }
         }
+        it++;
     }
     return vectorcillo;
 }

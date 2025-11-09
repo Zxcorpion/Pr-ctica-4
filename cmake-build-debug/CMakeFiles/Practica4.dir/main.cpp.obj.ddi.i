@@ -58471,9 +58471,9 @@ public:
     std::vector<PaMedicamento*> buscaCompuesto(const std::string &nombrePA);
     std::vector<PaMedicamento*> getMedicamentoSinLab();
     void borrarLaboratorio(const std::string &nombreCiudad);
-    PaMedicamento* buscaCompuesto(const int &ID_);
+    PaMedicamento* buscaCompuestoMed(const int &ID_);
     void suministrarFarmacia(Farmacia *farma, int id_num, int robin);
-    Farmacia* buscaFarmacia(const std::string &nombreFar);
+    Farmacia* buscaFarmacia(const std::string &cif_);
     bool eliminarMedicamento(const unsigned int &if_num);
     std::vector<Farmacia*> buscar_Farmacia_Provincia(const std::string &nombreProvin);
 };
@@ -58499,38 +58499,40 @@ int main() {
     std::vector<Farmacia*> farmas_Sevilla = medBatman.buscar_Farmacia_Provincia("SEVILLA");
     std::cout<<"Farmacias encontradas: "<< farmas_Sevilla.size()<<std::endl;
     int id_Magnes = 3640, id_Carbonato = 3632, id_Cloruro = 3633;
-    PaMedicamento *oxido = 0, *carbonato = 0,*cloruro = 0;
-
-
-
-    for (int i = 0;i < farmas_Sevilla.size(); i++) {
-        int stock_Magnesio = farmas_Sevilla[i]->buscaMedicamID(id_Magnes);
-        int stock_Carbonat = farmas_Sevilla[i]->buscaMedicamID(id_Carbonato);
-        int stock_Clorur = farmas_Sevilla[i]->buscaMedicamID(id_Cloruro);
-
-        std::cout<<"==============================="<<std::endl;
-        std::cout<<"Stock de cada medicamento de la Farmacia "<<i+1<< ": "<<farmas_Sevilla[i]->get_nombre()<<std::endl;
-        std::cout<<"Oxido: "<<stock_Magnesio<<", Carbonato: "<<stock_Carbonat<<", Cloruro: "<<stock_Clorur<<std::endl;
-        std::cout<<"==============================="<<std::endl;
-
-        for (int j = 0; j < 12; j++) {
-
-            if (farmas_Sevilla[i]->comprarMedicam(id_Magnes,1,oxido) > 0) {
-
-            }else if (farmas_Sevilla[i]->comprarMedicam(id_Carbonato,1,carbonato) > 0) {
-                std::cout<<"no hay oxido"<<std::endl;
-
-            }else if (farmas_Sevilla[i]->comprarMedicam(id_Cloruro,1,cloruro) > 0) {
-                std::cout<<"no hay carbonato"<<std::endl;
-
-            }else{
-                std::cout<<"La farmacia "<<farmas_Sevilla[i]->get_nombre()<<" no posee ninguno de los PaMeds que necesita, lo sentimos ^_^'"<<std::endl;
-
-            }
+    PaMedicamento *oxido = medBatman.buscaCompuestoMed(id_Magnes);
+    PaMedicamento *carbonato = medBatman.buscaCompuestoMed(id_Carbonato);
+    PaMedicamento *cloruro = medBatman.buscaCompuestoMed(id_Cloruro);
+# 90 "C:/Users/pablo/Downloads/Segundo Curso/Estructuras/Practicas/Practica4/main.cpp"
+    std::vector<Farmacia*> farmas_Madrid = medBatman.buscar_Farmacia_Provincia("MADRID");
+    int contadorMadridVirus = 0;
+    for (int i=0; i<farmas_Madrid.size(); i++) {
+        if (farmas_Madrid[i]->buscaMedicamNombre("VIRUS").size() != 0) {
+            std::cout<<"Farmacia : "<<i+1<<std::endl;
+            mostrarFarmacia(*farmas_Madrid[i]);
+            contadorMadridVirus++;
         }
     }
+    std::cout<<"El numero de farmacias de Madrid que tienen algun medicamento que tiene virus es "<<contadorMadridVirus<<std::endl;
 
 
+    std::cout<<"\n";
+    std::cout<<"Procedemos a eliminar el cianuro"<<std::endl;
+
+    int id_Eliminar_Cianuro = 9355, id_Elimina_otro = 3244;
+    medBatman.eliminarMedicamento(id_Eliminar_Cianuro);
+    PaMedicamento *cianuro = medBatman.buscaCompuestoMed(id_Eliminar_Cianuro);
+    medBatman.eliminarMedicamento(id_Elimina_otro);
+    PaMedicamento *otro = medBatman.buscaCompuestoMed(id_Elimina_otro);
+    if (cianuro != 0) {
+        std::cout<<"Fallo al borrar"<<std::endl;
+    }else {
+        std::cout<<"Borrado exitoso"<<std::endl;
+    }
+    if (otro != 0) {
+        std::cout<<"Fallo al borrar"<<std::endl;
+    }else {
+        std::cout<<"Borrado exitoso"<<std::endl;
+    }
 
     return 0;
 }

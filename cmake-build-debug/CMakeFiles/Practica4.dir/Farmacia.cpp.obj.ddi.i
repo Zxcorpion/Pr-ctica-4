@@ -58497,9 +58497,9 @@ public:
     std::vector<PaMedicamento*> buscaCompuesto(const std::string &nombrePA);
     std::vector<PaMedicamento*> getMedicamentoSinLab();
     void borrarLaboratorio(const std::string &nombreCiudad);
-    PaMedicamento* buscaCompuesto(const int &ID_);
+    PaMedicamento* buscaCompuestoMed(const int &ID_);
     void suministrarFarmacia(Farmacia *farma, int id_num, int robin);
-    Farmacia* buscaFarmacia(const std::string &nombreFar);
+    Farmacia* buscaFarmacia(const std::string &cif_);
     bool eliminarMedicamento(const unsigned int &if_num);
     std::vector<Farmacia*> buscar_Farmacia_Provincia(const std::string &nombreProvin);
 };
@@ -58701,14 +58701,17 @@ int Farmacia::buscaMedicamID(const int &id_num) {
 
 
 
-std::vector<PaMedicamento *> Farmacia::buscaMedicamNombre(const std::string &nombresito) {
+std::vector<PaMedicamento*> Farmacia::buscaMedicamNombre(const std::string &nombresito) {
     std::vector<PaMedicamento*> vectorcillo;
-    std::set<Stock>::iterator iteradorCillo = order.begin();
-    while (iteradorCillo != order.end()) {
-        if (iteradorCillo->get_number()->get_nombre().find(nombresito) != std::string::npos) {
-            vectorcillo.push_back(iteradorCillo->get_number());
-            iteradorCillo++;
+    std::set<Stock>::iterator it = order.begin();
+    while (it != order.end()) {
+        PaMedicamento *med = it->get_number();
+        if (med != 0) {
+            if (med->get_nombre().find(nombresito) != std::string::npos) {
+                vectorcillo.push_back(med);
+            }
         }
+        it++;
     }
     return vectorcillo;
 }
@@ -58760,7 +58763,7 @@ void Farmacia::nuevoStock(PaMedicamento *batmelatonina, int &robin) {
 
     }
 }
-# 279 "C:/Users/pablo/Downloads/Segundo Curso/Estructuras/Practicas/Practica4/Farmacia.cpp"
+# 282 "C:/Users/pablo/Downloads/Segundo Curso/Estructuras/Practicas/Practica4/Farmacia.cpp"
 bool Farmacia::eliminarStock(const int &id_num) {
 
     Stock buscado(id_num);

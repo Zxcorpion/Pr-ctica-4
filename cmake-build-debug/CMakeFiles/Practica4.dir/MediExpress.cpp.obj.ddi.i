@@ -58484,9 +58484,9 @@ public:
     std::vector<PaMedicamento*> buscaCompuesto(const std::string &nombrePA);
     std::vector<PaMedicamento*> getMedicamentoSinLab();
     void borrarLaboratorio(const std::string &nombreCiudad);
-    PaMedicamento* buscaCompuesto(const int &ID_);
+    PaMedicamento* buscaCompuestoMed(const int &ID_);
     void suministrarFarmacia(Farmacia *farma, int id_num, int robin);
-    Farmacia* buscaFarmacia(const std::string &nombreFar);
+    Farmacia* buscaFarmacia(const std::string &cif_);
     bool eliminarMedicamento(const unsigned int &if_num);
     std::vector<Farmacia*> buscar_Farmacia_Provincia(const std::string &nombreProvin);
 };
@@ -58876,7 +58876,6 @@ std::vector<Laboratorio*> MediExpress::buscarLabCiudad(const std::string &nombre
 
 std::vector<PaMedicamento*> MediExpress::buscaCompuesto(const std::string &nombrePA) {
     std::vector<PaMedicamento*>auxiliar;
-
     for(std::map<int,PaMedicamento>::iterator aux = medication.begin();aux != medication.end();aux++) {
         if(aux->second.get_nombre().find(nombrePA) != std::string::npos) {
             auxiliar.push_back(&(aux->second));
@@ -58934,7 +58933,7 @@ void MediExpress::borrarLaboratorio(const std::string &nombreCiudad) {
 
 
 
-PaMedicamento *MediExpress::buscaCompuesto(const int &ID_) {
+PaMedicamento *MediExpress::buscaCompuestoMed(const int &ID_) {
     for(std::map<int,PaMedicamento>::iterator it_Batman = medication.begin();it_Batman != medication.end();it_Batman++) {
         if(it_Batman->second.get_id_num() == ID_) {
             return &(it_Batman->second);
@@ -59012,19 +59011,23 @@ std::vector<Farmacia*> MediExpress::buscar_Farmacia_Provincia(const std::string 
     }
     return farmacias_Nightwing;
 }
-# 559 "C:/Users/pablo/Downloads/Segundo Curso/Estructuras/Practicas/Practica4/MediExpress.cpp"
+# 558 "C:/Users/pablo/Downloads/Segundo Curso/Estructuras/Practicas/Practica4/MediExpress.cpp"
 bool MediExpress::eliminarMedicamento(const unsigned int &if_num) {
 
     std::map<int,PaMedicamento>::iterator itTodd= medication.find(if_num);
 
     if (itTodd != medication.end()) {
+
+        for (int i=0;i<pharmacy.size();i++) {
+            pharmacy[i].eliminarStock(if_num);
+        }
+
+        itTodd->second.servidoPor(0);
+
         medication.erase(itTodd);
     }else {
         return false;
     }
 
-    for (int i=0;i<pharmacy.size();i++) {
-        pharmacy[i].eliminarStock(if_num);
-    }
     return true;
 }
