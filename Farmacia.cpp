@@ -202,6 +202,11 @@ int Farmacia::buscaMedicamID(const int &id_num) {
         //Si no existe o no le queda stock devuelve 0
         return 0;
 }
+int Farmacia::stock_Buscado(const int &id_num) {
+    int batSalvacion = buscaMedicamID(id_num);
+    return batSalvacion;
+}
+
 
 /**
  * @brief El metodo devuelve un vector de Pamedicamentos segun un nombre dado
@@ -241,9 +246,7 @@ int Farmacia::comprarMedicam(const int &id_num,const int &robinunidades, PaMedic
         aux2.decrementa(robinunidades);
         //Lo volvemos a insertar en nuestro order
         order.insert(aux2);
-
-        //Tiene que devolver el numero de stock que habia inicialmente
-        return stock_PaMed;
+        paMed = (order.find(aux2)->get_number());
     }else {
         //Si no hay suificiente stock llamamos a pedidoMedicam y le pasamos el numero de unidades que necesitamos
         int aux3 = buscaMedicamID(id_num);
@@ -251,6 +254,7 @@ int Farmacia::comprarMedicam(const int &id_num,const int &robinunidades, PaMedic
         pedidoMedicam(id_num,aux3);
         return 0;
     }
+    return stock_PaMed;
 }
 
 void Farmacia::nuevoStock(PaMedicamento *batmelatonina, int &robin) {
@@ -264,14 +268,12 @@ void Farmacia::nuevoStock(PaMedicamento *batmelatonina, int &robin) {
         order.insert(aux2);
     }else {
         //Cuando no existe lo creamos nosotros
-        Stock nuevorobin(batmelatonina->get_id_num(),robin);
+        Stock nuevorobin(batmelatonina->get_id_num(),robin, batmelatonina);
         //Para enlazarlo correctamente con PaMedicamente lo insertamos en el order
         order.insert(nuevorobin);
-        //tenemos que enlazar todavia
     }
 }
 
-//pablo, (preguntar a profesor a que se refiere con exito)
 /**
  * @brief Metodo que elimina el stock de un PAmedicamento
  * @param id_num ID del PAmedicamento

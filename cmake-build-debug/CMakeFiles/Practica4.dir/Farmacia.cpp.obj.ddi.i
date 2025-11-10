@@ -50787,6 +50787,8 @@ private:
     MediExpress* linkMedi;
     std::set<Stock> order;
     void pedidoMedicam(const int &id_num,const int &robin);
+    int buscaMedicamID(const int &id_num);
+
 public:
     Farmacia(std::string cif="-",std::string provincia="-",std::string localidad="-",
     std::string nombre="-",std::string direccion="-",std::string codPostal="-", MediExpress *link=0);
@@ -50811,11 +50813,11 @@ public:
     bool operator<(const Farmacia &orig) const;
     bool operator>(const Farmacia &orig) const;
 
-    int buscaMedicamID(const int &id_num);
     std::vector<PaMedicamento*> buscaMedicamNombre(const std::string &nombresito);
     int comprarMedicam(const int &id_num,const int &robin, PaMedicamento *&paMed);
     void nuevoStock(PaMedicamento* batmelatonina,int &robin);
     bool eliminarStock(const int &id_num);
+    int stock_Buscado(const int &id_num);
 };
 # 2 "C:/Users/pablo/Downloads/Segundo Curso/Estructuras/Practicas/Practica4/Farmacia.cpp" 2
 # 1 "C:/Users/pablo/Downloads/Segundo Curso/Estructuras/Practicas/Practica4/MediExpress.h" 1
@@ -58695,6 +58697,11 @@ int Farmacia::buscaMedicamID(const int &id_num) {
 
         return 0;
 }
+int Farmacia::stock_Buscado(const int &id_num) {
+    int batSalvacion = buscaMedicamID(id_num);
+    return batSalvacion;
+}
+
 
 
 
@@ -58734,9 +58741,7 @@ int Farmacia::comprarMedicam(const int &id_num,const int &robinunidades, PaMedic
         aux2.decrementa(robinunidades);
 
         order.insert(aux2);
-
-
-        return stock_PaMed;
+        paMed = (order.find(aux2)->get_number());
     }else {
 
         int aux3 = buscaMedicamID(id_num);
@@ -58744,6 +58749,7 @@ int Farmacia::comprarMedicam(const int &id_num,const int &robinunidades, PaMedic
         pedidoMedicam(id_num,aux3);
         return 0;
     }
+    return stock_PaMed;
 }
 
 void Farmacia::nuevoStock(PaMedicamento *batmelatonina, int &robin) {
@@ -58757,13 +58763,12 @@ void Farmacia::nuevoStock(PaMedicamento *batmelatonina, int &robin) {
         order.insert(aux2);
     }else {
 
-        Stock nuevorobin(batmelatonina->get_id_num(),robin);
+        Stock nuevorobin(batmelatonina->get_id_num(),robin, batmelatonina);
 
         order.insert(nuevorobin);
-
     }
 }
-# 282 "C:/Users/pablo/Downloads/Segundo Curso/Estructuras/Practicas/Practica4/Farmacia.cpp"
+# 284 "C:/Users/pablo/Downloads/Segundo Curso/Estructuras/Practicas/Practica4/Farmacia.cpp"
 bool Farmacia::eliminarStock(const int &id_num) {
 
     Stock buscado(id_num);

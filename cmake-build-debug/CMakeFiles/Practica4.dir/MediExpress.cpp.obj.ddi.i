@@ -58424,6 +58424,8 @@ private:
     MediExpress* linkMedi;
     std::set<Stock> order;
     void pedidoMedicam(const int &id_num,const int &robin);
+    int buscaMedicamID(const int &id_num);
+
 public:
     Farmacia(std::string cif="-",std::string provincia="-",std::string localidad="-",
     std::string nombre="-",std::string direccion="-",std::string codPostal="-", MediExpress *link=0);
@@ -58448,11 +58450,11 @@ public:
     bool operator<(const Farmacia &orig) const;
     bool operator>(const Farmacia &orig) const;
 
-    int buscaMedicamID(const int &id_num);
     std::vector<PaMedicamento*> buscaMedicamNombre(const std::string &nombresito);
     int comprarMedicam(const int &id_num,const int &robin, PaMedicamento *&paMed);
     void nuevoStock(PaMedicamento* batmelatonina,int &robin);
     bool eliminarStock(const int &id_num);
+    int stock_Buscado(const int &id_num);
 };
 # 16 "C:/Users/pablo/Downloads/Segundo Curso/Estructuras/Practicas/Practica4/MediExpress.h" 2
 

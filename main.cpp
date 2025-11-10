@@ -34,7 +34,7 @@ int main() {
     //Prueba 1
     MediExpress medBatman("../pa_medicamentos.csv","../lab2.csv","../farmacias.csv");
     std::vector<Farmacia*> farmas_Sevilla = medBatman.buscar_Farmacia_Provincia("SEVILLA");
-    std::cout<<"Farmacias encontradas: "<< farmas_Sevilla.size()<<std::endl;// esto lo tengo como comprobacion de cuantas de sevilla hay
+    std::cout<<"Farmacias encontradas situadas Sevilla: "<< farmas_Sevilla.size()<<std::endl;// esto lo tengo como comprobacion de cuantas de sevilla hay
     int id_Magnes = 3640, id_Carbonato = 3632, id_Cloruro = 3633;
     PaMedicamento *oxido = medBatman.buscaCompuestoMed(id_Magnes);
     PaMedicamento *carbonato = medBatman.buscaCompuestoMed(id_Carbonato);
@@ -42,55 +42,64 @@ int main() {
 
     //Aqui empezamos a buscar los medicamentos
     //cambiar pq busca ahora es private
-    /*
+
     for (int i = 0;i < farmas_Sevilla.size(); i++) {
-        int stock_Magnesio = farmas_Sevilla[i]->buscaMedicamID(id_Magnes);
-        int stock_Carbonat = farmas_Sevilla[i]->buscaMedicamID(id_Carbonato);
-        int stock_Clorur = farmas_Sevilla[i]->buscaMedicamID(id_Cloruro);
+        //Aqui sacamos los stock de cada PAmedicamento de cada farmacia
+        int stock_Magnesio = farmas_Sevilla[i]->stock_Buscado(id_Magnes);
+        int stock_Carbonat = farmas_Sevilla[i]->stock_Buscado(id_Carbonato);
+        int stock_Clorur = farmas_Sevilla[i]->stock_Buscado(id_Cloruro);
 
         std::cout<<"==============================="<<std::endl;
-        std::cout<<"Stock de cada medicamento de la Farmacia "<<i+1<< ": "<<farmas_Sevilla[i]->get_nombre()<<std::endl;
+        std::cout<<"Stock inicial de cada medicamento de la Farmacia "<<i+1<< ": "<<farmas_Sevilla[i]->get_nombre()<<std::endl;
         std::cout<<"Oxido: "<<stock_Magnesio<<", Carbonato: "<<stock_Carbonat<<", Cloruro: "<<stock_Clorur<<std::endl;
         std::cout<<"==============================="<<std::endl;
 
         for (int j = 0; j < 12; j++) {
             std::cout<<"Persona "<<j+1<<": "<<std::endl;
+            int stock_Magnesio = farmas_Sevilla[i]->stock_Buscado(id_Magnes);
+            int stock_Carbonat = farmas_Sevilla[i]->stock_Buscado(id_Carbonato);
+            int stock_Clorur = farmas_Sevilla[i]->stock_Buscado(id_Cloruro);
             //Hacemos las 12 compras, empezando por oxido
             if (stock_Magnesio > 0) {
                 //hemos comprado sin problemas
-                std::cout<<"Ha comprado oxido"<<std::endl;
                 farmas_Sevilla[i]->comprarMedicam(id_Magnes,1,oxido);
-            }else{
-                std::cout << "[borra pq es de ia]Persona " << j+1 << ": No hay óxido, pidiendo para el próximo..." << std::endl;
-                farmas_Sevilla[i]->comprarMedicam(id_Magnes,10,oxido);//Compro 10 por si las moscas
 
-            if (stock_Carbonat > 0) {
-                //compramos sin problemas
-                std::cout<<"Ha comprado carbonato"<<std::endl;
+                std::cout<<"Ha comprado oxido"<<std::endl;
             }else {
-                std::cout << "Persona " << j+1 << ": No hay carbonato, pidiendo para el próximo..." << std::endl;
-                farmas_Sevilla[i]->comprarMedicam(id_Carbonato, 10,carbonato);
-                if (stock_Clorur > 0) {
-                    std::cout<<"Ha comprado cloruro"<<std::endl;
-                }else{
-                    std::cout << "Persona " << j+1 << ": No hay cloruro, pidiendo para el próximo. No pudo comprar." << std::endl;
-                    farmas_Sevilla[i]->comprarMedicam(id_Cloruro, 10,cloruro);
+                std::cout<<"No hay oxido, pidiendo para la proxima..."<<std::endl;
+                farmas_Sevilla[i]->comprarMedicam(id_Magnes,1,oxido);//Compro 10 por si las moscas
+
+                if (stock_Carbonat > 0) {
+                    //compramos sin problemas
+                    farmas_Sevilla[i]->comprarMedicam(id_Carbonato,1,carbonato);
+                    std::cout<<"Ha comprado carbonato"<<std::endl;
+                }else {
+                    std::cout<<"No hay carbonato, pidiendo para la proxima..."<<std::endl;
+                    farmas_Sevilla[i]->comprarMedicam(id_Carbonato, 1,carbonato);
+                    if (stock_Clorur > 0) {
+                        std::cout<<"Ha comprado cloruro"<<std::endl;
+                        farmas_Sevilla[i]->comprarMedicam(id_Cloruro,1,cloruro);
+
+                    }else{
+                        std::cout<<"No hay cloruro, pidiendo para la proxima..."<<std::endl;
+                        farmas_Sevilla[i]->comprarMedicam(id_Cloruro, 1,cloruro);
+                    }
                 }
             }
-            }
         }
-        std::cout << "\nStock final - Oxido: " << farmas_Sevilla[i]->buscaMedicamID(id_Magnes)
-              << ", Carbonato: " << farmas_Sevilla[i]->buscaMedicamID(id_Carbonato)
-              << ", Cloruro: " << farmas_Sevilla[i]->buscaMedicamID(id_Cloruro) << std::endl;
-
-        //fin bucle j
+        std::cout<<"==============================="<<std::endl;
+        std::cout<<"Stock final de cada medicamento de la Farmacia "<<i+1<< ": "<<farmas_Sevilla[i]->get_nombre()<<std::endl;
+        std::cout<<"Oxido: "<<farmas_Sevilla[i]->stock_Buscado(id_Magnes)<<", Carbonato: "<<farmas_Sevilla[i]->stock_Buscado(id_Carbonato)<<", Cloruro: "<<farmas_Sevilla[i]->stock_Buscado(id_Cloruro)<<std::endl;
+        std::cout<<"==============================="<<std::endl;
     }
-    */
+
     //Prueba2
     std::vector<Farmacia*> farmas_Madrid = medBatman.buscar_Farmacia_Provincia("MADRID");
     int contadorMadridVirus = 0;
     for (int i=0; i<farmas_Madrid.size(); i++) {
         if (farmas_Madrid[i]->buscaMedicamNombre("VIRUS").size() != 0) {
+            std::vector<PaMedicamento*> pepe= farmas_Madrid[i]->buscaMedicamNombre("VIRUS");
+            std::cout<<pepe[0]->get_nombre()<<std::endl;
             std::cout<<"Farmacia : "<<i+1<<std::endl;
             mostrarFarmacia(*farmas_Madrid[i]);
             contadorMadridVirus++;
