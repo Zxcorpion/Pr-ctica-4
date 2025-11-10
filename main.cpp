@@ -91,21 +91,23 @@ int main() {
         std::cout<<"Stock final de cada medicamento de la Farmacia "<<i+1<< ": "<<farmas_Sevilla[i]->get_nombre()<<std::endl;
         std::cout<<"Oxido: "<<farmas_Sevilla[i]->stock_Buscado(id_Magnes)<<", Carbonato: "<<farmas_Sevilla[i]->stock_Buscado(id_Carbonato)<<", Cloruro: "<<farmas_Sevilla[i]->stock_Buscado(id_Cloruro)<<std::endl;
         std::cout<<"==============================="<<std::endl;
+
     }
 
     //Prueba2
-    std::vector<Farmacia*> farmas_Madrid = medBatman.buscar_Farmacia_Provincia("MADRID");
-    int contadorMadridVirus = 0;
+    std::vector<Farmacia*> farmas_Madrid = medBatman.buscar_Farmacia_Provincia("Madrid");
+    std::vector<Farmacia*> farmas_Madrid_Virus;
+    // int contadorMadridVirus = 0;
     for (int i=0; i<farmas_Madrid.size(); i++) {
         if (farmas_Madrid[i]->buscaMedicamNombre("VIRUS").size() != 0) {
-            std::vector<PaMedicamento*> pepe= farmas_Madrid[i]->buscaMedicamNombre("VIRUS");
-            std::cout<<pepe[0]->get_nombre()<<std::endl;
-            std::cout<<"Farmacia : "<<i+1<<std::endl;
-            mostrarFarmacia(*farmas_Madrid[i]);
-            contadorMadridVirus++;
+            farmas_Madrid_Virus.push_back(farmas_Madrid[i]);
+            // contadorMadridVirus++;
         }
     }
-    std::cout<<"El numero de farmacias de Madrid que tienen algun medicamento que tiene virus es "<<contadorMadridVirus<<std::endl;
+    std::cout<<"El numero de farmacias de Madrid que tienen algun medicamento que tiene virus es "<<farmas_Madrid_Virus.size()<<" y sus datos son: "<<std::endl;
+    for (int l = 0; l < farmas_Madrid_Virus.size(); l++) {
+        mostrarFarmacia(*farmas_Madrid_Virus[l]);
+    }
 
     //Prueba 3
     std::cout<<"\n";
@@ -125,6 +127,25 @@ int main() {
         std::cout<<"Fallo al borrar"<<std::endl;
     }else {
         std::cout<<"Borrado exitoso"<<std::endl;
+    }
+
+    //Parejas
+    int id_Virus_Gripe = 997;
+    PaMedicamento *virus_gripe = medBatman.buscaCompuestoMed(id_Virus_Gripe);
+    for (int i = 0; i < farmas_Madrid.size(); i++) {
+        if (farmas_Madrid[i]->stock_Buscado(id_Virus_Gripe) != 0) { //Esto significa que tiene stock de este PAmed
+            farmas_Madrid[i]->comprarMedicam(id_Virus_Gripe, 20,virus_gripe);
+        }
+    }
+    std::cout<<"Farmacias cuyo stock de PAmedicamentos que contienen virus de gripe es 30 son: "<<std::endl;
+    for (int k = 0; k < farmas_Madrid.size(); k++) {
+        if (farmas_Madrid[k]->stock_Buscado(id_Virus_Gripe) == 30) {
+            std::cout<<"Farmacia "<<k+1<<std::endl;
+            mostrarFarmacia(*farmas_Madrid[k]);
+        }
+        if (k == farmas_Madrid.size() - 1) {
+            std::cout<<farmas_Madrid.size();
+        }
     }
 
     return 0;
