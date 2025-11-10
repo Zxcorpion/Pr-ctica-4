@@ -95,7 +95,7 @@ int main() {
     }
 
     //Prueba2
-    std::vector<Farmacia*> farmas_Madrid = medBatman.buscar_Farmacia_Provincia("Madrid");
+    std::vector<Farmacia*> farmas_Madrid = medBatman.buscar_Farmacia_Provincia("MADRID");
     std::vector<Farmacia*> farmas_Madrid_Virus;
     // int contadorMadridVirus = 0;
     for (int i=0; i<farmas_Madrid.size(); i++) {
