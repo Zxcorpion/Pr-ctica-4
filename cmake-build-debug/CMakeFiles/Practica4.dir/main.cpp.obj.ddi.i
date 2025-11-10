@@ -58556,15 +58556,14 @@ int main() {
         std::cout<<"Stock final de cada medicamento de la Farmacia "<<i+1<< ": "<<farmas_Sevilla[i]->get_nombre()<<std::endl;
         std::cout<<"Oxido: "<<farmas_Sevilla[i]->stock_Buscado(id_Magnes)<<", Carbonato: "<<farmas_Sevilla[i]->stock_Buscado(id_Carbonato)<<", Cloruro: "<<farmas_Sevilla[i]->stock_Buscado(id_Cloruro)<<std::endl;
         std::cout<<"==============================="<<std::endl;
+
     }
 
 
-    std::vector<Farmacia*> farmas_Madrid = medBatman.buscar_Farmacia_Provincia("MADRID");
+    std::vector<Farmacia*> farmas_Madrid = medBatman.buscar_Farmacia_Provincia("Madrid");
     int contadorMadridVirus = 0;
     for (int i=0; i<farmas_Madrid.size(); i++) {
         if (farmas_Madrid[i]->buscaMedicamNombre("VIRUS").size() != 0) {
-            std::vector<PaMedicamento*> pepe= farmas_Madrid[i]->buscaMedicamNombre("VIRUS");
-            std::cout<<pepe[0]->get_nombre()<<std::endl;
             std::cout<<"Farmacia : "<<i+1<<std::endl;
             mostrarFarmacia(*farmas_Madrid[i]);
             contadorMadridVirus++;
@@ -58590,6 +58589,25 @@ int main() {
         std::cout<<"Fallo al borrar"<<std::endl;
     }else {
         std::cout<<"Borrado exitoso"<<std::endl;
+    }
+
+
+    int id_Virus_Gripe = 997;
+    PaMedicamento *virus_gripe = medBatman.buscaCompuestoMed(id_Virus_Gripe);
+    for (int i = 0; i < farmas_Madrid.size(); i++) {
+        if (farmas_Madrid[i]->stock_Buscado(id_Virus_Gripe) != 0) {
+            farmas_Madrid[i]->comprarMedicam(id_Virus_Gripe, 20,virus_gripe);
+        }
+    }
+    std::cout<<"Farmacias cuyo stock de PAmedicamentos que contienen virus de gripe es 30 son: "<<std::endl;
+    for (int k = 0; k < farmas_Madrid.size(); k++) {
+        if (farmas_Madrid[k]->stock_Buscado(id_Virus_Gripe) == 30) {
+            std::cout<<"Farmacia "<<k+1<<std::endl;
+            mostrarFarmacia(*farmas_Madrid[k]);
+        }
+        if (k == farmas_Madrid.size() - 1) {
+            std::cout<<farmas_Madrid.size();
+        }
     }
 
     return 0;

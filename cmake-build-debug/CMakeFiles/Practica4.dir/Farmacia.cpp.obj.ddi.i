@@ -58697,6 +58697,13 @@ int Farmacia::buscaMedicamID(const int &id_num) {
 
         return 0;
 }
+
+
+
+
+
+
+
 int Farmacia::stock_Buscado(const int &id_num) {
     int batSalvacion = buscaMedicamID(id_num);
     return batSalvacion;
@@ -58768,7 +58775,7 @@ void Farmacia::nuevoStock(PaMedicamento *batmelatonina, int &robin) {
         order.insert(nuevorobin);
     }
 }
-# 284 "C:/Users/pablo/Downloads/Segundo Curso/Estructuras/Practicas/Practica4/Farmacia.cpp"
+# 291 "C:/Users/pablo/Downloads/Segundo Curso/Estructuras/Practicas/Practica4/Farmacia.cpp"
 bool Farmacia::eliminarStock(const int &id_num) {
 
     Stock buscado(id_num);

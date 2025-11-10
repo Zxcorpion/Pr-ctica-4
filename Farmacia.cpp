@@ -202,6 +202,13 @@ int Farmacia::buscaMedicamID(const int &id_num) {
         //Si no existe o no le queda stock devuelve 0
         return 0;
 }
+
+/**
+ * @brief Metodo que devuelve el stock que tiene una farmacia sobre un PAmedicamento
+ * @param id_num ID del PAmedicamento
+ * @return Stock de la farmacia sobre un PAmedicamento
+ * @post El metodo nos devuelve el numero de unidades de un PAmedicamento que dispone una farmacia
+ */
 int Farmacia::stock_Buscado(const int &id_num) {
     int batSalvacion = buscaMedicamID(id_num);
     return batSalvacion;
