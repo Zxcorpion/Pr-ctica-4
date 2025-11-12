@@ -246,6 +246,7 @@ int Farmacia::comprarMedicam(const int &id_num,const int &robinunidades, PaMedic
         //buscamos en nuestro order el medicamente mediante la funcion find
         std::set<Stock>::iterator it1 = order.find(aux1);
         //Lo guardo en una auxiliar para poder modificarlo
+        paMed = it1->get_number();
         Stock aux2 = *it1;
         //Lo eliminamos ya que para modificar un objeto del order, antes hay que sacarlo
         order.erase(it1);
@@ -253,12 +254,11 @@ int Farmacia::comprarMedicam(const int &id_num,const int &robinunidades, PaMedic
         aux2.decrementa(robinunidades);
         //Lo volvemos a insertar en nuestro order
         order.insert(aux2);
-        paMed = (order.find(aux2)->get_number());
     }else {
         //Si no hay suificiente stock llamamos a pedidoMedicam y le pasamos el numero de unidades que necesitamos
-        int aux3 = buscaMedicamID(id_num);
-        aux3 = robinunidades-aux3;
-        pedidoMedicam(id_num,aux3);
+       // int aux3 = buscaMedicamID(id_num);
+        //aux3 = robinunidades-aux3;
+        pedidoMedicam(id_num,robinunidades);
         return 0;
     }
     return stock_PaMed;

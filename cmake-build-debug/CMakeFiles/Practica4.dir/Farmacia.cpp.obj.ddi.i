@@ -58741,6 +58741,7 @@ int Farmacia::comprarMedicam(const int &id_num,const int &robinunidades, PaMedic
 
         std::set<Stock>::iterator it1 = order.find(aux1);
 
+        paMed = it1->get_number();
         Stock aux2 = *it1;
 
         order.erase(it1);
@@ -58748,12 +58749,11 @@ int Farmacia::comprarMedicam(const int &id_num,const int &robinunidades, PaMedic
         aux2.decrementa(robinunidades);
 
         order.insert(aux2);
-        paMed = (order.find(aux2)->get_number());
     }else {
 
-        int aux3 = buscaMedicamID(id_num);
-        aux3 = robinunidades-aux3;
-        pedidoMedicam(id_num,aux3);
+
+
+        pedidoMedicam(id_num,robinunidades);
         return 0;
     }
     return stock_PaMed;
