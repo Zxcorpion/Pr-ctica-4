@@ -1,7 +1,10 @@
+//
+// Created by marco on 10/11/2025.
+//
 
+#ifndef MEDIEXPRESS_H
+#define MEDIEXPRESS_H
 
-#ifndef PRACTICA3_MEDIEXPRESS_H
-#define PRACTICA3_MEDIEXPRESS_H
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -49,4 +52,7 @@ public:
     std::vector<Farmacia*> buscar_Farmacia_Provincia(const std::string &nombreProvin);
 };
 
-#endif //PRACTICA3_MEDIEXPRESS_H
+
+
+
+#endif //MEDIEXPRESS_H

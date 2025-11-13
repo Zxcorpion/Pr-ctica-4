@@ -1,6 +1,10 @@
+//
+// Created by marco on 10/11/2025.
+//
 
-#ifndef PRACTICA3_FARMACIA_H
-#define PRACTICA3_FARMACIA_H
+#ifndef FARMACIA_H
+#define FARMACIA_H
+
 #include <iostream>
 #include <set>
 #include "Stock.h"
@@ -54,4 +58,4 @@ public:
 
 
 
-#endif //PRACTICA3_FARMACIA_H
+#endif //FARMACIA_H

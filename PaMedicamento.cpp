@@ -1,3 +1,7 @@
+//
+// Created by marco on 10/11/2025.
+//
+
 #include "PaMedicamento.h"
 /**
  * @brief Constructor por defecto y parametrizado
@@ -39,7 +43,7 @@ PaMedicamento::~PaMedicamento() {
 
 
 /**
- * @brief Función para leer el atributo id_num 
+ * @brief Función para leer el atributo id_num
  * @return Devuelve el atributo id_num
  */
 int PaMedicamento::get_id_num() const {
@@ -53,14 +57,14 @@ void PaMedicamento::set_id_num(int id_num) {
     this->id_num = id_num;
 }
 /**
- * @brief Función para leer el atributo id_alpha 
+ * @brief Función para leer el atributo id_alpha
  * @return devuelve el atributo id_alpha
  */
 std::string PaMedicamento::get_id_alpha() const {
     return id_alpha;
 }
 /**
- * @brief Función para establecer un nuevo valor al atributo id_alpha 
+ * @brief Función para establecer un nuevo valor al atributo id_alpha
  * @param string id_alpha nuevo valor al atributo id_alpha
  */
 void PaMedicamento::set_id_alpha(const std::string &id_alpha) {
@@ -75,7 +79,7 @@ std::string PaMedicamento::get_nombre() const {
 }
 /**
  * @brief Función para establecer un nombre
- * @param string nombre 
+ * @param string nombre
  */
 void PaMedicamento::set_nombre(const std::string &nombre) {
     this->nombre = nombre;
@@ -112,11 +116,18 @@ bool PaMedicamento::operator==(const PaMedicamento &orig) const {
     return orig.id_num == this->id_num;
 }
 
-
+/**
+ * @brief Funcion para leer el atributo serve
+ * @return puntero a serve
+ */
 Laboratorio *PaMedicamento::getServe() const {
     return serve;
 }
 
+/**
+ * @brief Funcion para establecer un valor al atributo serve
+ * @param serve_ puntero a laboratorio
+ */
 void PaMedicamento::servidoPor(Laboratorio *serve_) {
     this->serve = serve_;
 }

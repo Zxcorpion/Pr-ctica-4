@@ -236,7 +236,14 @@ std::vector<PaMedicamento*> Farmacia::buscaMedicamNombre(const std::string &nomb
 }
 
 
-
+/**
+ * @brief Funcion para comprar un medicamento
+ * @param id_num identificacion del medicamento
+ * @param robinunidades unidades que queremos comprar
+ * @param paMed puntero al medicamento que queremos comprar
+ * @post Pedimos un medicamento o decrementamos el stock
+ * @return 0 si no hay suficiente stock o devolvemos el stock actual
+ */
 int Farmacia::comprarMedicam(const int &id_num,const int &robinunidades, PaMedicamento *&paMed) {
     int stock_PaMed = buscaMedicamID(id_num);
     //Comprobamos que hay unidades suficientes
@@ -264,6 +271,12 @@ int Farmacia::comprarMedicam(const int &id_num,const int &robinunidades, PaMedic
     return stock_PaMed;
 }
 
+/**
+ * @brief Fucnion asignarle un nuevo stock a un medicamento
+ * @param batmelatonina puntero al medicamento  que vamos a asignarle un nuevo stock
+ * @param robin numero de stock que vamos a asignar
+ * @post Incrementamos el stock de un medicamento  o insertamos un objeto stock nuevo si no existe
+ */
 void Farmacia::nuevoStock(PaMedicamento *batmelatonina, int &robin) {
     Stock bat1(batmelatonina->get_id_num());
     std::set<Stock>::iterator it1 = order.find(bat1);
@@ -300,5 +313,4 @@ bool Farmacia::eliminarStock(const int &id_num) {
     }
     return true;
 }
-
 

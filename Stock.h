@@ -1,9 +1,9 @@
 //
-// Created by pablo on 05/11/2025.
+// Created by marco on 10/11/2025.
 //
 
-#ifndef PRACTICA4_STOCK_H
-#define PRACTICA4_STOCK_H
+#ifndef STOCK_H
+#define STOCK_H
 
 #include "PaMedicamento.h"
 
@@ -31,4 +31,6 @@ public:
 
 };
 
-#endif //PRACTICA4_STOCK_H
+
+
+#endif //STOCK_H
